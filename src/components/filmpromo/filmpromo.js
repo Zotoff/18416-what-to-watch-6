@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const FilmPromo = (props) => {
 
-  const {promoTitle, promoImage, promoImageAlt, promoGenre, promoYear} = props.promoFilm;
+  const {title, poster, alt, genre, year} = props.promoFilm;
 
   return (
     <section className="movie-card">
@@ -32,14 +32,14 @@ const FilmPromo = (props) => {
       <div className="movie-card__wrap">
         <div className="movie-card__info">
           <div className="movie-card__poster">
-            <img src={promoImage} alt={promoImageAlt} width="218" height="327" />
+            <img src={poster} alt={alt} width="218" height="327" />
           </div>
 
           <div className="movie-card__desc">
-            <h2 className="movie-card__title">{promoTitle}</h2>
+            <h2 className="movie-card__title">{title}</h2>
             <p className="movie-card__meta">
-              <span className="movie-card__genre">{promoGenre}</span>
-              <span className="movie-card__year">{promoYear}</span>
+              <span className="movie-card__genre">{genre}</span>
+              <span className="movie-card__year">{year}</span>
             </p>
 
             <div className="movie-card__buttons">
@@ -66,5 +66,12 @@ const FilmPromo = (props) => {
 export default FilmPromo;
 
 FilmPromo.propTypes = {
-  promoFilm: PropTypes.object.isRequired
+  promoFilm:
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      poster: PropTypes.string.isRequired,
+      alt: PropTypes.string.isRequired,
+      genre: PropTypes.string.isRequired,
+      year: PropTypes.string.isRequired
+    })
 };

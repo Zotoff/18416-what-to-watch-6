@@ -8,7 +8,7 @@ const Main = (props) => {
   const {promoFilm} = props;
 
   return (
-    <React.Fragment>
+    <>
       <div className="visually-hidden">
         <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
           <symbol id="add" viewBox="0 0 19 20">
@@ -102,7 +102,7 @@ const Main = (props) => {
           </div>
         </footer>
       </div>
-    </React.Fragment>
+    </>
   );
 };
 
@@ -110,5 +110,12 @@ const Main = (props) => {
 export default Main;
 
 Main.propTypes = {
-  promoFilm: PropTypes.object.isRequired
+  promoFilm:
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      poster: PropTypes.string.isRequired,
+      alt: PropTypes.string.isRequired,
+      genre: PropTypes.string.isRequired,
+      year: PropTypes.string.isRequired
+    })
 };
