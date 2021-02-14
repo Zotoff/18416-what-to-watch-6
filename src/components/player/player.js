@@ -1,14 +1,17 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
 import ArtBoard from '../artboard/artboard';
 
-const Player = () => {
+const Player = (props) => {
+  const {videoLink, posterImage, runTime} = props.film;
   return (
     <>
       <ArtBoard />
       <div className="player">
-        <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
+        <video src={videoLink} className="player__video" poster={posterImage}></video>
 
-        <button type="button" className="player__exit">Exit</button>
+        <Link to={`/`} type="button" className="player__exit">Exit</Link>
 
         <div className="player__controls">
           <div className="player__controls-row">
@@ -16,7 +19,7 @@ const Player = () => {
               <progress className="player__progress" value="30" max="100"></progress>
               <div className="player__toggler" style={{left: `30%`}}>Toggler</div>
             </div>
-            <div className="player__time-value">1:30:29</div>
+            <div className="player__time-value">{runTime}</div>
           </div>
 
           <div className="player__controls-row">
@@ -42,3 +45,12 @@ const Player = () => {
 };
 
 export default Player;
+
+Player.propTypes = {
+  film:
+    PropTypes.shape({
+      videoLink: PropTypes.string.isRequired,
+      posterImage: PropTypes.string.isRequired,
+      runTime: PropTypes.number.isRequired
+    })
+};

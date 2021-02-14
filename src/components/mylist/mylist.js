@@ -1,10 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ArtBoard from '../artboard/artboard';
 import FilmCard from '../filmcard/filmcard';
 import Footer from '../footer/footer';
 import {Link} from 'react-router-dom';
 
-const MyList = () => {
+const MyList = (props) => {
+  const {films} = props;
   return (
     <>
       <ArtBoard />
@@ -31,7 +33,9 @@ const MyList = () => {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <div className="catalog__movies-list">
-            <FilmCard />
+            {films.map((film, index) => {
+              return <FilmCard key={index} film={film} />;
+            })}
           </div>
         </section>
 
@@ -42,3 +46,7 @@ const MyList = () => {
 };
 
 export default MyList;
+
+MyList.propTypes = {
+  films: PropTypes.array.isRequired
+};
