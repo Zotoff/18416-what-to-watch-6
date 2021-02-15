@@ -5,34 +5,34 @@ import PropTypes from 'prop-types';
 import Main from '../main/main';
 import Login from '../login/login';
 import MyList from "../mylist/mylist";
-import Film from "../filmcard/filmcard";
+import Film from "../film/film";
 import Review from "../review/review";
 import Player from "../player/player";
 import NotFoundScreen from "../notfound/notfound";
 
 const App = (props) => {
-  const {promoFilm} = props;
+  const {promoFilm, films, singleFilm} = props;
 
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <Main promoFilm={promoFilm} />
+          <Main promoFilm={promoFilm} films={films} />
         </Route>
         <Route exact path="/login">
           <Login />
         </Route>
         <Route exact path="/mylist">
-          <MyList />
+          <MyList films={films}/>
         </Route>
         <Route exact path="/film/:id">
-          <Film />
+          <Film film={singleFilm}/>
         </Route>
         <Route exact path="/films/:id/review">
-          <Review/>
+          <Review film={singleFilm}/>
         </Route>
         <Route exact path="/player/:id">
-          <Player />
+          <Player film={singleFilm}/>
         </Route>
         <Route>
           <NotFoundScreen />
@@ -53,5 +53,7 @@ App.propTypes = {
         alt: PropTypes.string.isRequired,
         genre: PropTypes.string.isRequired,
         year: PropTypes.string.isRequired
-      })
+      }),
+  films: PropTypes.array.isRequired,
+  singleFilm: PropTypes.object.isRequired
 };

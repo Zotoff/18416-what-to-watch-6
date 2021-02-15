@@ -1,13 +1,14 @@
 import React from 'react';
-import FilmCard from '../filmcard/filmcard';
+
 import FilmPromo from '../filmpromo/filmpromo';
 import Footer from '../footer/footer';
 import ArtBoard from '../artboard/artboard';
+import MoviesList from "../movieslist/movieslist";
 import PropTypes from 'prop-types';
 
 const Main = (props) => {
 
-  const {promoFilm} = props;
+  const {promoFilm, films} = props;
 
   return (
     <>
@@ -51,9 +52,7 @@ const Main = (props) => {
             </li>
           </ul>
 
-          <div className="catalog__movies-list">
-            <FilmCard />
-          </div>
+          <MoviesList films={films} />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
@@ -77,5 +76,6 @@ Main.propTypes = {
       alt: PropTypes.string.isRequired,
       genre: PropTypes.string.isRequired,
       year: PropTypes.string.isRequired
-    })
+    }),
+  films: PropTypes.array.isRequired
 };
