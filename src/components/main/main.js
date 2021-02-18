@@ -8,12 +8,12 @@ import PropTypes from 'prop-types';
 
 const Main = (props) => {
 
-  const {promoFilm, films} = props;
+  const {singleFilm, films} = props;
 
   return (
     <>
       <ArtBoard />
-      <FilmPromo promoFilm = {promoFilm} />
+      <FilmPromo singleFilm={singleFilm} />
 
       <div className="page-content">
         <section className="catalog">
@@ -69,13 +69,12 @@ const Main = (props) => {
 export default Main;
 
 Main.propTypes = {
-  promoFilm:
+  singleFilm:
     PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      poster: PropTypes.string.isRequired,
-      alt: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      posterImage: PropTypes.string.isRequired,
       genre: PropTypes.string.isRequired,
-      year: PropTypes.string.isRequired
+      released: PropTypes.number.isRequired
     }),
   films: PropTypes.array.isRequired
 };
