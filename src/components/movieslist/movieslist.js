@@ -14,8 +14,8 @@ class Movieslist extends React.Component {
     this.handleFilmHover = this.handleFilmHover.bind(this);
   }
 
-  handleFilmHover() {
-    this.setState({activeFilm: 2});
+  handleFilmHover(id) {
+    this.setState({activeFilm: id});
   }
   render() {
 

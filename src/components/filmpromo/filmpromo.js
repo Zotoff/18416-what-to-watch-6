@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 
 const FilmPromo = (props) => {
 
-  const {title, poster, alt, genre, year} = props.promoFilm;
+  const {name, posterImage, genre, released} = props.singleFilm;
 
   return (
     <section className="movie-card">
@@ -34,14 +34,14 @@ const FilmPromo = (props) => {
       <div className="movie-card__wrap">
         <div className="movie-card__info">
           <div className="movie-card__poster">
-            <img src={poster} alt={alt} width="218" height="327" />
+            <img src={posterImage} alt={name} width="218" height="327" />
           </div>
 
           <div className="movie-card__desc">
-            <h2 className="movie-card__title">{title}</h2>
+            <h2 className="movie-card__title">{name}</h2>
             <p className="movie-card__meta">
               <span className="movie-card__genre">{genre}</span>
-              <span className="movie-card__year">{year}</span>
+              <span className="movie-card__year">{released}</span>
             </p>
 
             <div className="movie-card__buttons">
@@ -68,12 +68,11 @@ const FilmPromo = (props) => {
 export default FilmPromo;
 
 FilmPromo.propTypes = {
-  promoFilm:
+  singleFilm:
     PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      poster: PropTypes.string.isRequired,
-      alt: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      posterImage: PropTypes.string.isRequired,
       genre: PropTypes.string.isRequired,
-      year: PropTypes.string.isRequired
+      released: PropTypes.number.isRequired
     })
 };

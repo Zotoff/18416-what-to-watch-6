@@ -11,13 +11,13 @@ import Player from "../player/player";
 import NotFoundScreen from "../notfound/notfound";
 
 const App = (props) => {
-  const {promoFilm, films, singleFilm} = props;
+  const {films, singleFilm} = props;
 
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <Main promoFilm={promoFilm} films={films} />
+          <Main singleFilm={singleFilm} films={films} />
         </Route>
         <Route exact path="/login">
           <Login />
@@ -46,14 +46,6 @@ const App = (props) => {
 export default App;
 
 App.propTypes = {
-  promoFilm:
-      PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        poster: PropTypes.string.isRequired,
-        alt: PropTypes.string.isRequired,
-        genre: PropTypes.string.isRequired,
-        year: PropTypes.string.isRequired
-      }),
   films: PropTypes.array.isRequired,
   singleFilm: PropTypes.object.isRequired
 };
