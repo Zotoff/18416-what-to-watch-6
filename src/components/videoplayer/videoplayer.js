@@ -5,23 +5,10 @@ const VideoPlayer = ({isPlaying, src, poster, onPlayButtonClick})=> {
   const videoRef = useRef();
 
   useEffect(() => {
-    videoRef.current = document.querySelector(`.videoPlayer`);
-
-    return () => {
-      videoRef.current.pause();
-      videoRef.current.oncanplaythrough = null;
-      videoRef.current.onplay = null;
-      videoRef.current.onpause = null;
-      videoRef.current = null;
-    };
-  }, [src]);
-
-  useEffect(() => {
     if (isPlaying) {
       videoRef.current.play();
       return;
     }
-
     videoRef.current.pause();
   }, [isPlaying]);
 
