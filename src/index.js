@@ -1,7 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
-import films from './mocks/films';
-import singleFilm from './mocks/singlefilm';
+import {createStore} from "redux";
+import {Provider} from "react-redux";
+import {reducer} from "./store/reducer";
+import {composeWithDevTools} from 'redux-devtools-extension';
 
-ReactDOM.render(<App films={films} singleFilm={singleFilm} />, document.querySelector(`#root`));
+// create the store
+const store = createStore(reducer, composeWithDevTools());
+
+ReactDOM.render(
+    <Provider store={store}>
+      <App />
+    </Provider>
+    , document.querySelector(`#root`)
+);
