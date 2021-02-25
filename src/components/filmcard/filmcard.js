@@ -4,25 +4,23 @@ import PropTypes from 'prop-types';
 import VideoPlayer from "../videoplayer/videoplayer";
 
 import {useHistory} from 'react-router-dom';
+import {Types} from '../../types/types';
 
 const FilmCard = (props) => {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isVideo, setIsVideo] = useState(false);
   const {id, posterImage, name, videoLink} = props.film;
-  const {handleFilmHover} = props;
   const history = useHistory();
 
   return (
     <>
       <article className="small-movie-card catalog__movies-card"
-        onMouseEnter={()=>{
-          setTimeout(setIsVideo(true), 1000);
-        }}
+        onMouseEnter={() => setTimeout(() => setIsVideo(true), 1000)}
         onMouseLeave={()=>{
           setIsVideo(false);
         }}
       >
-        <div onMouseEnter={handleFilmHover} className="small-movie-card__image">
+        <div className="small-movie-card__image">
           {
             isVideo ?
               <VideoPlayer
@@ -53,10 +51,10 @@ export default FilmCard;
 FilmCard.propTypes = {
   film:
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      posterImage: PropTypes.string.isRequired,
-      videoLink: PropTypes.string.isRequired,
+      id: Types.NUMBER_REQUIRED,
+      name: Types.STRING_REQUIRED,
+      posterImage: Types.STRING_REQUIRED,
+      videoLink: Types.STRING_REQUIRED,
     }),
-  handleFilmHover: PropTypes.func.isRequired
+  handleFilmHover: Types.FUNCTION_REQUIRED
 };
