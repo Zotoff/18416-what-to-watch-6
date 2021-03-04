@@ -2,15 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {Link} from 'react-router-dom';
+import {adaptFilms} from "../../utils/utils";
 
 const FilmPromo = (props) => {
 
-  const {name, posterImage, genre, released} = props.singleFilm;
+  const adaptedFilm = adaptFilms(props.singleFilm);
+
+  const {name, posterImage, genre, released, backgroundImage} = adaptedFilm;
 
   return (
     <section className="movie-card">
       <div className="movie-card__bg">
-        <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+        <img src={backgroundImage} alt="The Grand Budapest Hotel" />
       </div>
 
       <h1 className="visually-hidden">WTW</h1>
@@ -73,6 +76,7 @@ FilmPromo.propTypes = {
       name: PropTypes.string.isRequired,
       posterImage: PropTypes.string.isRequired,
       genre: PropTypes.string.isRequired,
-      released: PropTypes.number.isRequired
+      released: PropTypes.number.isRequired,
+      backgroundImage: PropTypes.string.isRequired
     })
 };
