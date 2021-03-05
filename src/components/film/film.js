@@ -123,6 +123,6 @@ Film.propTypes = {
       released: PropTypes.number.isRequired,
       starring: PropTypes.array.isRequired,
       description: PropTypes.string.isRequired,
-      backgroundImage: PropTypes.string.isRequiredge
+      backgroundImage: PropTypes.string.isRequired
     })
 };

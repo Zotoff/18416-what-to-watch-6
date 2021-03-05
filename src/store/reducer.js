@@ -1,13 +1,12 @@
 import {ActionType} from "./actions";
-import {Genres} from "../constants/constants";
-import films from '../mocks/films';
-import singleFilm from "../mocks/singlefilm";
+import {Genres, AuthorizationStatus} from "../constants/constants";
 
 const initialState = {
   activeGenre: Genres.ALL_GENRES,
-  films,
-  initialFilms: films,
-  singleFilm,
+  authorizationStatus: AuthorizationStatus.UNAUTHORIZED,
+  films: [],
+  isDataLoaded: false,
+  singleFilm: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -16,6 +15,23 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         activeGenre: action.payload
+      };
+    case ActionType.LOAD_FILMS:
+      return {
+        ...state,
+        films: action.payload,
+        isDataLoaded: true
+      };
+    case ActionType.GET_SINGLE_FILM:
+      return {
+        ...state,
+        singleFilm: action.payload,
+        isDataLoaded: true
+      };
+    case ActionType.REQUIRED_AUTHORIZATION:
+      return {
+        ...state,
+        authorizationStatus: action.payload,
       };
   }
   return state;

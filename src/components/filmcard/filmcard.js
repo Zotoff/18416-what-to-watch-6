@@ -5,11 +5,13 @@ import VideoPlayer from "../videoplayer/videoplayer";
 
 import {useHistory} from 'react-router-dom';
 import {Types} from '../../types/types';
+import {adaptFilms} from "../../utils/utils";
 
 const FilmCard = (props) => {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isVideo, setIsVideo] = useState(false);
-  const {id, posterImage, name, videoLink} = props.film;
+  const adaptedFilm = adaptFilms(props.film);
+  const {posterImage, previewVideoLink, name, id} = adaptedFilm;
   const history = useHistory();
 
   return (
@@ -24,7 +26,7 @@ const FilmCard = (props) => {
           {
             isVideo ?
               <VideoPlayer
-                src={videoLink}
+                src={previewVideoLink}
                 isPlaying={isPlaying}
                 onPlayButtonClick={() => setIsPlaying(!isPlaying)}
                 poster={posterImage}
@@ -49,12 +51,13 @@ const FilmCard = (props) => {
 export default FilmCard;
 
 FilmCard.propTypes = {
-  film:
+  adaptedFilm:
     PropTypes.shape({
       id: Types.NUMBER_REQUIRED,
       name: Types.STRING_REQUIRED,
       posterImage: Types.STRING_REQUIRED,
-      videoLink: Types.STRING_REQUIRED,
+      previewVideoLink: Types.STRING_REQUIRED,
     }),
-  handleFilmHover: Types.FUNCTION_REQUIRED
+  handleFilmHover: Types.FUNCTION_REQUIRED,
+  film: Types.OBJECT_REQUIRED,
 };
