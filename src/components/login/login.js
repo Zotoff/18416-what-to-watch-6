@@ -1,7 +1,7 @@
 import React, {useRef} from 'react';
 import Footer from '../footer/footer';
 import ArtBoard from '../artboard/artboard';
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {login} from "../../store/api-actions";
@@ -9,8 +9,6 @@ import {login} from "../../store/api-actions";
 const Login = ({onSubmit}) => {
   const loginRef = useRef();
   const passwordRef = useRef();
-
-  const history = useHistory();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -75,7 +73,7 @@ const Login = ({onSubmit}) => {
   );
 };
 
-Login.PropTypes = {
+Login.propTypes = {
   onSubmit: PropTypes.func.isRequired
 };
 

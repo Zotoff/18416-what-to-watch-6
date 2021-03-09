@@ -6,9 +6,6 @@ import {setComment} from "../../store/api-actions";
 
 const CommentForm = ({onSubmit, id}) => {
 
-  // const ratingRef = useRef();
-  // const textRef = useRef();
-
   const [commentForm, setCommentForm] = React.useState({
     reviewText: ``,
     rating: 0
@@ -78,7 +75,7 @@ const CommentForm = ({onSubmit, id}) => {
   );
 };
 
-CommentForm.PropTypes = {
+CommentForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired
 };

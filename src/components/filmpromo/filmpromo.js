@@ -20,8 +20,6 @@ const FilmPromo = (props) => {
 
   const adaptedFilm = adaptFilms(promoFilm);
 
-  console.log(`Promo FIlm`, adaptedFilm);
-
   const {name, posterImage, genre, released, backgroundImage} = adaptedFilm;
 
   return (
@@ -91,6 +89,7 @@ FilmPromo.propTypes = {
     }),
   authorizationStatus: PropTypes.string.isRequired,
   getPromoFromServer: PropTypes.func.isRequired,
+  isDataLoaded: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({

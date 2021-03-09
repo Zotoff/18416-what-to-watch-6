@@ -8,7 +8,7 @@ import MoviesList from "../movieslist/movieslist";
 import PropTypes from 'prop-types';
 import Spinner from "../spinner/spinner";
 
-import {getFilmsGenres, getSingleFilm} from '../../utils/utils';
+import {getFilmsGenres} from '../../utils/utils';
 import {selectFilmsFromState} from '../../selectors/selectors';
 import {ActionCreator} from "../../store/actions";
 import {fetchFilmList} from "../../store/api-actions";

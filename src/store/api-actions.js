@@ -1,5 +1,5 @@
 import {ActionCreator} from "./actions";
-import {AuthorizationStatus, AppRoute, APIRoute} from "../constants/constants";
+import {AuthorizationStatus, APIRoute} from "../constants/constants";
 
 export const fetchFilmList = () => (dispatch, _getState, api) => (
   api.get(APIRoute.FILMS)
@@ -32,4 +32,4 @@ export const setComment = ({rating, comment}, id) => (dispatch, _getState, api) 
 export const getPromoFilm = () => (dispatch, _getState, api) => (
   api.get(APIRoute.PROMO)
     .then(({data}) => dispatch(ActionCreator.getPromoFilm(data)))
-)
+);

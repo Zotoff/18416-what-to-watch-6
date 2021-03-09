@@ -14,8 +14,6 @@ import NotFoundScreen from "../notfound/notfound";
 import {checkAuth} from "../../store/api-actions";
 import PrivateRoute from "../private-route/private-route";
 import browserHistory from "../../browser-history/browser-history";
-import {getSingleFilm} from "../../utils/utils";
-
 
 class App extends React.Component {
   constructor(props) {
