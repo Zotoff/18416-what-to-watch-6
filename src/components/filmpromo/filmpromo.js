@@ -1,12 +1,26 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 
 import {Link} from 'react-router-dom';
 import {adaptFilms} from "../../utils/utils";
+import {connect} from "react-redux";
+import {AuthorizationStatus} from "../../constants/constants";
+import {getPromoFilm} from "../../store/api-actions";
 
 const FilmPromo = (props) => {
 
-  const adaptedFilm = adaptFilms(props.singleFilm);
+  const {getPromoFromServer, promoFilm, isDataLoaded, authorizationStatus} = props;
+
+  useEffect(() => {
+    if (!isDataLoaded) {
+      getPromoFromServer();
+    }
+  }, [isDataLoaded]);
+
+
+  const adaptedFilm = adaptFilms(promoFilm);
+
+  console.log(`Promo FIlm`, adaptedFilm);
 
   const {name, posterImage, genre, released, backgroundImage} = adaptedFilm;
 
@@ -28,9 +42,7 @@ const FilmPromo = (props) => {
         </div>
 
         <div className="user-block">
-          <div className="user-block__avatar">
-            <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-          </div>
+          {authorizationStatus === AuthorizationStatus.UNAUTHORIZED ? (<Link className="user-block__link" to="/login">Sign in</Link>) : (<div className="user-block__avatar"><Link to="/mylist"><img src="img/avatar.jpg" alt="User avatar" width="63" height="63" /></Link></div>)}
         </div>
       </header>
 
@@ -68,15 +80,28 @@ const FilmPromo = (props) => {
   );
 };
 
-export default FilmPromo;
-
 FilmPromo.propTypes = {
-  singleFilm:
+  promoFilm:
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       posterImage: PropTypes.string.isRequired,
       genre: PropTypes.string.isRequired,
       released: PropTypes.number.isRequired,
       backgroundImage: PropTypes.string.isRequired
-    })
+    }),
+  authorizationStatus: PropTypes.string.isRequired,
+  getPromoFromServer: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  authorizationStatus: state.authorizationStatus,
+  promoFilm: state.promoFilm
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getPromoFromServer: () => dispatch(getPromoFilm())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilmPromo);

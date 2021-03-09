@@ -6,7 +6,20 @@ const initialState = {
   authorizationStatus: AuthorizationStatus.UNAUTHORIZED,
   films: [],
   isDataLoaded: false,
-  singleFilm: {}
+  singleFilm: {
+    name: ``,
+    posterImage: ``,
+    genre: ``,
+    released: 2020,
+    backgroundImage: ``
+  },
+  promoFilm: {
+    name: ``,
+    posterImage: ``,
+    genre: ``,
+    released: 2020,
+    backgroundImage: ``
+  }
 };
 
 const reducer = (state = initialState, action) => {
@@ -32,6 +45,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         authorizationStatus: action.payload,
+      };
+    case ActionType.GET_PROMO_FILM:
+      return {
+        ...state,
+        isDataLoaded: true,
+        promoFilm: action.payload
       };
   }
   return state;

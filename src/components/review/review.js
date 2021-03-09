@@ -1,11 +1,34 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
-import ArtBoard from '../artboard/artboard';
+import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
+
+import ArtBoard from '../artboard/artboard';
 import CommentForm from '../commentform/comment-form';
+import {adaptFilms} from "../../utils/utils";
+import {getFilm} from "../../store/api-actions";
+
 
 const Review = (props) => {
-  const {name, posterImage} = props.film;
+
+  const {getFilmFromServer, singleFilm, isDataLoaded} = props;
+
+  useEffect(() => {
+    if (!isDataLoaded) {
+      const getFilmId = (path) => {
+        const pathArray = path.split(`/`);
+        return pathArray[2];
+      };
+
+      const filmId = getFilmId(window.location.pathname);
+
+      getFilmFromServer(filmId);
+    }
+  }, [isDataLoaded]);
+
+  const adaptedFilm = adaptFilms(singleFilm);
+
+  // const {name, posterImage} = props.film;
   return (
     <>
       <ArtBoard />
@@ -29,7 +52,7 @@ const Review = (props) => {
             <nav className="breadcrumbs">
               <ul className="breadcrumbs__list">
                 <li className="breadcrumbs__item">
-                  <a href="movie-page.html" className="breadcrumbs__link">{name}</a>
+                  <a href="movie-page.html" className="breadcrumbs__link">{adaptedFilm.name}</a>
                 </li>
                 <li className="breadcrumbs__item">
                   <a className="breadcrumbs__link">Add review</a>
@@ -45,23 +68,38 @@ const Review = (props) => {
           </header>
 
           <div className="movie-card__poster movie-card__poster--small">
-            <img src={posterImage} alt={name} width="218" height="327" />
+            <img src={adaptedFilm.posterImage} alt={adaptedFilm.name} width="218" height="327" />
           </div>
         </div>
 
-        <CommentForm />
+        <CommentForm id={adaptedFilm.id} />
 
       </section>
     </>
   );
 };
 
-export default Review;
+const mapStateToProps = (state) => ({
+  singleFilm: state.singleFilm,
+  isDataLoaded: state.isDataLoaded,
+  authorizationStatus: state.authorizationStatus,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getFilmFromServer: (id) => dispatch(getFilm(id))
+  };
+};
 
 Review.propTypes = {
-  film:
+  singleFilm:
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       posterImage: PropTypes.string.isRequired
-    })
+    }),
+  getFilmFromServer: PropTypes.func.isRequired,
+  isDataLoaded: PropTypes.bool.isRequired
 };
+
+export {Review};
+export default connect(mapStateToProps, mapDispatchToProps)(Review);

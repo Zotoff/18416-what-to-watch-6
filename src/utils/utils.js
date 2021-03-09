@@ -17,10 +17,6 @@ export const getFilmsByGenre = (filmsList, activeGenre) => {
   }
 };
 
-export const getSingleFilm = (films) => {
-  return films[0];
-};
-
 export const adaptFilms = (film) => {
   const adaptedFilm = Object.assign(
       {},

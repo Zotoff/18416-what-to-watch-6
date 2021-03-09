@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route, BrowserRouter} from 'react-router-dom';
+import {Switch, Route, Router as BrowserRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import {connect} from 'react-redux';
@@ -11,6 +11,11 @@ import Film from "../film/film";
 import Review from "../review/review";
 import Player from "../player/player";
 import NotFoundScreen from "../notfound/notfound";
+import {checkAuth} from "../../store/api-actions";
+import PrivateRoute from "../private-route/private-route";
+import browserHistory from "../../browser-history/browser-history";
+import {getSingleFilm} from "../../utils/utils";
+
 
 class App extends React.Component {
   constructor(props) {
@@ -21,10 +26,14 @@ class App extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.props.checkAuth();
+  }
+
   render() {
-    const {films, singleFilm} = this.props;
+    const {films} = this.props;
     return (
-      <BrowserRouter>
+      <BrowserRouter history={browserHistory}>
         <Switch>
           <Route exact path="/">
             <Main />
@@ -32,17 +41,21 @@ class App extends React.Component {
           <Route exact path="/login">
             <Login />
           </Route>
-          <Route exact path="/mylist">
-            <MyList films={films}/>
-          </Route>
+          <PrivateRoute exact
+            path="/mylist"
+            render={() => <MyList films={films}/>}
+          >
+          </PrivateRoute>
           <Route exact path="/film/:id">
-            <Film film={singleFilm}/>
+            <Film />
           </Route>
-          <Route exact path="/films/:id/review">
-            <Review film={singleFilm}/>
-          </Route>
+          <PrivateRoute exact
+            path="/films/:id/review"
+            render={() => <Review />}
+          >
+          </PrivateRoute>
           <Route exact path="/player/:id">
-            <Player film={singleFilm}/>
+            <Player />
           </Route>
           <Route>
             <NotFoundScreen />
@@ -57,14 +70,9 @@ export {App};
 
 App.propTypes = {
   films: PropTypes.array.isRequired,
-  singleFilm: PropTypes.object.isRequired
+  singleFilm: PropTypes.object.isRequired,
+  checkAuth: PropTypes.func.isRequired,
 };
-
-/*
-* заргузилось приложение, вызывается экшн, который делает запросы через мапдиспатчтупропс и пишет в стор.
-* Стейт - глобальный, задается в initialState в редюсере
-* хранилище не обновляется если оно не смаплено в мапстейттупропс, т.е. то, что пишем там - то и обновляется.
-* */
 
 const mapStateToProps = (state) => {
   return {
@@ -73,6 +81,14 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    checkAuth: () => {
+      dispatch(checkAuth());
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
 
 

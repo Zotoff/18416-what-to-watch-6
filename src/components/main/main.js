@@ -3,7 +3,6 @@ import {connect} from "react-redux";
 
 import FilmPromo from '../filmpromo/filmpromo';
 import Footer from '../footer/footer';
-import ArtBoard from '../artboard/artboard';
 import GenreList from "../genrelist/genre-list";
 import MoviesList from "../movieslist/movieslist";
 import PropTypes from 'prop-types';
@@ -33,8 +32,7 @@ const Main = (props) => {
 
   return (
     <>
-      <ArtBoard />
-      <FilmPromo singleFilm={getSingleFilm(films)} />
+      <FilmPromo />
 
       <div className="page-content">
         <section className="catalog">

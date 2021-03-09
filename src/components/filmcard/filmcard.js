@@ -40,7 +40,7 @@ const FilmCard = (props) => {
             (evt) => {
               evt.preventDefault();
               history.push(`/film/${id}`);
-            }} className="small-movie-card__link" href="movie-page.html">{name}</a>
+            }} className="small-movie-card__link" href="">{name}</a>
         </h3>
       </article>
     </>
