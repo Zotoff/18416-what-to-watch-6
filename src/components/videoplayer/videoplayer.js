@@ -1,29 +1,35 @@
-import React, {Fragment, useEffect, useRef} from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+import {Types} from "../../types/types";
 
-const VideoPlayer = ({isPlaying, src, poster, onPlayButtonClick})=> {
-  const videoRef = useRef();
-
-  useEffect(() => {
-    if (isPlaying) {
-      videoRef.current.play();
-      return;
-    }
-    videoRef.current.pause();
-  }, [isPlaying]);
-
+const VideoPlayer = ({playVideo, src, isVideo, poster})=> {
   return (
     <>
-      <video ref={videoRef} poster={poster} className={`videoPlayer`} muted src={src} onMouseOver={onPlayButtonClick}></video>
+      {
+        isVideo
+          ?
+          <video
+            ref={playVideo}
+            poster={poster}
+            className={`videoPlayer`}
+            muted
+            src={src}
+            width="280"
+            height="175"
+          >
+          </video>
+          :
+          <img src={poster} alt={name} width="280" height="175"/>
+      }
+
     </>
   );
 };
 
 VideoPlayer.propTypes = {
-  isPlaying: PropTypes.bool.isRequired,
-  src: PropTypes.string.isRequired,
-  poster: PropTypes.string.isRequired,
-  onPlayButtonClick: PropTypes.func.isRequired,
+  playVideo: Types.FUNCTION_REQUIRED,
+  src: Types.STRING_REQUIRED,
+  poster: Types.STRING_REQUIRED,
+  isVideo: Types.BOOLEAN_REQUIRED
 };
 
 export default VideoPlayer;

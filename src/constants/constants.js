@@ -42,6 +42,7 @@ export const AppRoute = {
   LOGIN: `/login`,
   ROOT: `/`,
   RESULT: `/`,
+  MY_LIST: `/mylist`
 };
 
 export const APIRoute = {

@@ -15,7 +15,7 @@ const initialState = {
   },
   promoFilm: {
     name: ``,
-    posterImage: ``,
+    posterImage: `1`,
     genre: ``,
     released: 2020,
     backgroundImage: ``

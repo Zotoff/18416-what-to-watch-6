@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Switch, Route, Router as BrowserRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -14,68 +14,53 @@ import NotFoundScreen from "../notfound/notfound";
 import {checkAuth} from "../../store/api-actions";
 import PrivateRoute from "../private-route/private-route";
 import browserHistory from "../../browser-history/browser-history";
+import {AppRoute} from "../../constants/constants";
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentFilm: this.props.singleFilm,
-      films: this.props.films
-    };
-  }
-
-  componentDidMount() {
-    this.props.checkAuth();
-  }
-
-  render() {
-    const {films} = this.props;
-    return (
-      <BrowserRouter history={browserHistory}>
-        <Switch>
-          <Route exact path="/">
-            <Main />
-          </Route>
-          <Route exact path="/login">
-            <Login />
-          </Route>
-          <PrivateRoute exact
-            path="/mylist"
-            render={() => <MyList films={films}/>}
-          >
-          </PrivateRoute>
-          <Route exact path="/film/:id">
-            <Film />
-          </Route>
-          <PrivateRoute exact
-            path="/films/:id/review"
-            render={() => <Review />}
-          >
-          </PrivateRoute>
-          <Route exact path="/player/:id">
-            <Player />
-          </Route>
-          <Route>
-            <NotFoundScreen />
-          </Route>
-        </Switch>
-      </BrowserRouter>
-    );
-  }
-}
+const App = ({films}) => {
+  useEffect(() => {
+    checkAuth();
+  }, []);
+  return (
+    <BrowserRouter history={browserHistory}>
+      <Switch>
+        <Route exact path={AppRoute.ROOT}>
+          <Main />
+        </Route>
+        <Route exact path={AppRoute.LOGIN}>
+          <Login />
+        </Route>
+        <PrivateRoute exact
+          path={AppRoute.MY_LIST}
+          render={() => <MyList films={films}/>}
+        >
+        </PrivateRoute>
+        <Route exact path="/film/:id" component={Film} />
+        <PrivateRoute exact
+          path="/films/:id/review"
+          render={() => <Review />}
+        >
+        </PrivateRoute>
+        <Route exact path="/player/:id">
+          <Player />
+        </Route>
+        <Route>
+          <NotFoundScreen />
+        </Route>
+      </Switch>
+    </BrowserRouter>
+  );
+};
 
 export {App};
 
 App.propTypes = {
   films: PropTypes.array.isRequired,
-  singleFilm: PropTypes.object.isRequired,
   checkAuth: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
     films: state.films,
-    singleFilm: state.singleFilm
   };
 };
 

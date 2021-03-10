@@ -6,17 +6,15 @@ import {adaptFilms} from "../../utils/utils";
 import {connect} from "react-redux";
 import {AuthorizationStatus} from "../../constants/constants";
 import {getPromoFilm} from "../../store/api-actions";
+import {Types} from "../../types/types";
 
 const FilmPromo = (props) => {
 
-  const {getPromoFromServer, promoFilm, isDataLoaded, authorizationStatus} = props;
+  const {getPromoFromServer, promoFilm, authorizationStatus} = props;
 
   useEffect(() => {
-    if (!isDataLoaded) {
-      getPromoFromServer();
-    }
-  }, [isDataLoaded]);
-
+    getPromoFromServer();
+  }, []);
 
   const adaptedFilm = adaptFilms(promoFilm);
 
@@ -60,13 +58,15 @@ const FilmPromo = (props) => {
             <div className="movie-card__buttons">
               <button className="btn btn--play movie-card__button" type="button">
                 <svg viewBox="0 0 19 19" width="19" height="19">
-                  <use xlinkHref="#play-s"></use>
+                  <use xlinkHref="#play-s">
+                  </use>
                 </svg>
                 <span>Play</span>
               </button>
               <Link to={`/mylist`} className="btn btn--list movie-card__button" type="button">
                 <svg viewBox="0 0 19 20" width="19" height="20">
-                  <use xlinkHref="#add"></use>
+                  <use xlinkHref="#add">
+                  </use>
                 </svg>
                 <span>My list</span>
               </Link>
@@ -79,22 +79,22 @@ const FilmPromo = (props) => {
 };
 
 FilmPromo.propTypes = {
-  promoFilm:
+  adaptedFilm:
     PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      posterImage: PropTypes.string.isRequired,
-      genre: PropTypes.string.isRequired,
-      released: PropTypes.number.isRequired,
-      backgroundImage: PropTypes.string.isRequired
+      name: Types.STRING_REQUIRED,
+      posterImage: Types.STRING_REQUIRED,
+      genre: Types.STRING_REQUIRED,
+      released: Types.NUMBER_REQUIRED,
+      backgroundImage: Types.STRING_REQUIRED,
     }),
-  authorizationStatus: PropTypes.string.isRequired,
-  getPromoFromServer: PropTypes.func.isRequired,
-  isDataLoaded: PropTypes.bool.isRequired,
+  authorizationStatus: Types.STRING_REQUIRED,
+  getPromoFromServer: Types.FUNCTION_REQUIRED,
+  promoFilm: Types.OBJECT_REQUIRED
 };
 
 const mapStateToProps = (state) => ({
   authorizationStatus: state.authorizationStatus,
-  promoFilm: state.promoFilm
+  promoFilm: state.promoFilm,
 });
 
 const mapDispatchToProps = (dispatch) => {

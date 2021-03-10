@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {getFilm} from '../../store/api-actions';
 import {adaptFilms} from "../../utils/utils";
 import {AuthorizationStatus} from "../../constants/constants";
 
@@ -12,20 +11,12 @@ import Footer from '../footer/footer';
 
 const Film = (props) => {
 
-  const {getFilmFromServer, singleFilm, isDataLoaded, authorizationStatus} = props;
+  const {films, authorizationStatus} = props;
 
-  useEffect(() => {
-    if (!isDataLoaded) {
-      const getFilmId = (path) => {
-        const pathArray = path.split(`/`);
-        return pathArray[2];
-      };
+  // eslint-disable-next-line react/prop-types
+  const id = props.match.params.id;
 
-      const filmId = getFilmId(window.location.pathname);
-
-      getFilmFromServer(filmId);
-    }
-  }, [isDataLoaded]);
+  const singleFilm = films.find((f) => f.id === +id);
 
   const adaptedFilm = adaptFilms(singleFilm);
 
@@ -103,7 +94,8 @@ const Film = (props) => {
               </nav>
 
               <div className="movie-rating">
-                <div className="movie-rating__score"></div>
+                <div className="movie-rating__score">
+                </div>
                 <p className="movie-rating__meta">
                   <span className="movie-rating__level">Very good</span>
                   <span className="movie-rating__count">ratings</span>
@@ -111,7 +103,6 @@ const Film = (props) => {
               </div>
 
               <div className="movie-card__text">
-                <p></p>
                 <p className="movie-card__director"><strong>Director:</strong> {adaptedFilm.director}</p>
 
                 <p className="movie-card__starring"><strong>Starring:</strong> {adaptedFilm.starring}</p>
@@ -126,36 +117,14 @@ const Film = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  singleFilm: state.singleFilm,
-  isDataLoaded: state.isDataLoaded,
+  films: state.films,
   authorizationStatus: state.authorizationStatus
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getFilmFromServer: (id) => dispatch(getFilm(id))
-  };
-};
-
 Film.propTypes = {
-  singleFilm:
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      posterImage: PropTypes.string.isRequired,
-      director: PropTypes.string.isRequired,
-      rating: PropTypes.number.isRequired,
-      scoresCount: PropTypes.number.isRequired,
-      genre: PropTypes.string.isRequired,
-      released: PropTypes.number.isRequired,
-      starring: PropTypes.array.isRequired,
-      description: PropTypes.string.isRequired,
-      backgroundImage: PropTypes.string.isRequired,
-    }),
-  getFilmFromServer: PropTypes.func.isRequired,
-  isDataLoaded: PropTypes.bool.isRequired,
+  films: PropTypes.array.isRequired,
   authorizationStatus: PropTypes.string.isRequired
 };
 
 export {Film};
-export default connect(mapStateToProps, mapDispatchToProps)(Film);
+export default connect(mapStateToProps)(Film);
