@@ -8,39 +8,46 @@ import {Types} from '../../types/types';
 import {adaptFilms} from "../../utils/utils";
 
 const FilmCard = (props) => {
-  const [isPlaying, setIsPlaying] = useState(true);
+
   const [isVideo, setIsVideo] = useState(false);
   const adaptedFilm = adaptFilms(props.film);
   const {posterImage, previewVideoLink, name, id} = adaptedFilm;
   const history = useHistory();
 
+  const playVideo = (element) => {
+    if (element) {
+      setTimeout(() => element.play(), 1000);
+    }
+  };
+
+  const handleEnter = () => {
+    setIsVideo(true);
+  };
+
+  const handleLeave = () => {
+    setIsVideo(false);
+  };
+
   return (
     <>
       <article className="small-movie-card catalog__movies-card"
-        onMouseEnter={() => setTimeout(() => setIsVideo(true), 1000)}
-        onMouseLeave={()=>{
-          setIsVideo(false);
-        }}
+        onMouseEnter={handleEnter}
+        onMouseLeave={handleLeave}
       >
         <div className="small-movie-card__image">
-          {
-            isVideo ?
-              <VideoPlayer
-                src={previewVideoLink}
-                isPlaying={isPlaying}
-                onPlayButtonClick={() => setIsPlaying(!isPlaying)}
-                poster={posterImage}
-              />
-              :
-              <img src={posterImage} alt={name} width="280" height="175"/>
-          }
+          <VideoPlayer
+            src={previewVideoLink}
+            isVideo={isVideo}
+            playVideo={playVideo}
+            poster={posterImage}
+          />
         </div>
         <h3 className="small-movie-card__title">
           <a onClick={
             (evt) => {
               evt.preventDefault();
               history.push(`/film/${id}`);
-            }} className="small-movie-card__link" href="movie-page.html">{name}</a>
+            }} className="small-movie-card__link" href="">{name}</a>
         </h3>
       </article>
     </>
@@ -59,5 +66,5 @@ FilmCard.propTypes = {
       previewVideoLink: Types.STRING_REQUIRED,
     }),
   handleFilmHover: Types.FUNCTION_REQUIRED,
-  film: Types.OBJECT_REQUIRED,
+  film: Types.OBJECT_REQUIRED
 };

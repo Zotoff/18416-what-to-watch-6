@@ -3,13 +3,12 @@ import {connect} from "react-redux";
 
 import FilmPromo from '../filmpromo/filmpromo';
 import Footer from '../footer/footer';
-import ArtBoard from '../artboard/artboard';
 import GenreList from "../genrelist/genre-list";
 import MoviesList from "../movieslist/movieslist";
 import PropTypes from 'prop-types';
 import Spinner from "../spinner/spinner";
 
-import {getFilmsGenres, getSingleFilm} from '../../utils/utils';
+import {getFilmsGenres} from '../../utils/utils';
 import {selectFilmsFromState} from '../../selectors/selectors';
 import {ActionCreator} from "../../store/actions";
 import {fetchFilmList} from "../../store/api-actions";
@@ -33,8 +32,7 @@ const Main = (props) => {
 
   return (
     <>
-      <ArtBoard />
-      <FilmPromo singleFilm={getSingleFilm(films)} />
+      <FilmPromo />
 
       <div className="page-content">
         <section className="catalog">

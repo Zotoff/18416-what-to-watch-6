@@ -1,12 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 
 import {Link} from 'react-router-dom';
 import {adaptFilms} from "../../utils/utils";
+import {connect} from "react-redux";
+import {AuthorizationStatus} from "../../constants/constants";
+import {getPromoFilm} from "../../store/api-actions";
+import {Types} from "../../types/types";
 
 const FilmPromo = (props) => {
 
-  const adaptedFilm = adaptFilms(props.singleFilm);
+  const {getPromoFromServer, promoFilm, authorizationStatus} = props;
+
+  useEffect(() => {
+    getPromoFromServer();
+  }, []);
+
+  const adaptedFilm = adaptFilms(promoFilm);
 
   const {name, posterImage, genre, released, backgroundImage} = adaptedFilm;
 
@@ -28,9 +38,7 @@ const FilmPromo = (props) => {
         </div>
 
         <div className="user-block">
-          <div className="user-block__avatar">
-            <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-          </div>
+          {authorizationStatus === AuthorizationStatus.UNAUTHORIZED ? (<Link className="user-block__link" to="/login">Sign in</Link>) : (<div className="user-block__avatar"><Link to="/mylist"><img src="img/avatar.jpg" alt="User avatar" width="63" height="63" /></Link></div>)}
         </div>
       </header>
 
@@ -50,13 +58,15 @@ const FilmPromo = (props) => {
             <div className="movie-card__buttons">
               <button className="btn btn--play movie-card__button" type="button">
                 <svg viewBox="0 0 19 19" width="19" height="19">
-                  <use xlinkHref="#play-s"></use>
+                  <use xlinkHref="#play-s">
+                  </use>
                 </svg>
                 <span>Play</span>
               </button>
               <Link to={`/mylist`} className="btn btn--list movie-card__button" type="button">
                 <svg viewBox="0 0 19 20" width="19" height="20">
-                  <use xlinkHref="#add"></use>
+                  <use xlinkHref="#add">
+                  </use>
                 </svg>
                 <span>My list</span>
               </Link>
@@ -68,15 +78,29 @@ const FilmPromo = (props) => {
   );
 };
 
-export default FilmPromo;
-
 FilmPromo.propTypes = {
-  singleFilm:
+  adaptedFilm:
     PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      posterImage: PropTypes.string.isRequired,
-      genre: PropTypes.string.isRequired,
-      released: PropTypes.number.isRequired,
-      backgroundImage: PropTypes.string.isRequired
-    })
+      name: Types.STRING_REQUIRED,
+      posterImage: Types.STRING_REQUIRED,
+      genre: Types.STRING_REQUIRED,
+      released: Types.NUMBER_REQUIRED,
+      backgroundImage: Types.STRING_REQUIRED,
+    }),
+  authorizationStatus: Types.STRING_REQUIRED,
+  getPromoFromServer: Types.FUNCTION_REQUIRED,
+  promoFilm: Types.OBJECT_REQUIRED
 };
+
+const mapStateToProps = (state) => ({
+  authorizationStatus: state.authorizationStatus,
+  promoFilm: state.promoFilm,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getPromoFromServer: () => dispatch(getPromoFilm())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilmPromo);

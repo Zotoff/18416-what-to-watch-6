@@ -1,6 +1,10 @@
 import React from 'react';
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
 
-const CommentForm = () => {
+import {setComment} from "../../store/api-actions";
+
+const CommentForm = ({onSubmit, id}) => {
 
   const [commentForm, setCommentForm] = React.useState({
     reviewText: ``,
@@ -9,6 +13,12 @@ const CommentForm = () => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
+    onSubmit(
+        {
+          rating: commentForm.rating,
+          comment: commentForm.reviewText,
+        },
+        id);
   };
 
   const handleFieldChange = (evt) => {
@@ -65,4 +75,16 @@ const CommentForm = () => {
   );
 };
 
-export default CommentForm;
+CommentForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit(data, id) {
+    dispatch(setComment(data, id));
+  }
+});
+
+export {CommentForm};
+export default connect(null, mapDispatchToProps)(CommentForm);
