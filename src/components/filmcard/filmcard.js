@@ -40,6 +40,7 @@ const FilmCard = (props) => {
             isVideo={isVideo}
             playVideo={playVideo}
             poster={posterImage}
+            name={name}
           />
         </div>
         <h3 className="small-movie-card__title">
@@ -65,6 +66,5 @@ FilmCard.propTypes = {
       posterImage: Types.STRING_REQUIRED,
       previewVideoLink: Types.STRING_REQUIRED,
     }),
-  handleFilmHover: Types.FUNCTION_REQUIRED,
   film: Types.OBJECT_REQUIRED
 };

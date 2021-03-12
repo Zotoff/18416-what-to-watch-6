@@ -5,5 +5,6 @@ export const Types = {
   NUMBER_REQUIRED: PropTypes.number.isRequired,
   FUNCTION_REQUIRED: PropTypes.func.isRequired,
   OBJECT_REQUIRED: PropTypes.object.isRequired,
-  BOOLEAN_REQUIRED: PropTypes.bool.isRequired
+  BOOLEAN_REQUIRED: PropTypes.bool.isRequired,
+  ARRAY_REQUIRED: PropTypes.array.isRequired
 };

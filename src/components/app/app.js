@@ -11,41 +11,37 @@ import Film from "../film/film";
 import Review from "../review/review";
 import Player from "../player/player";
 import NotFoundScreen from "../notfound/notfound";
-import {checkAuth} from "../../store/api-actions";
 import PrivateRoute from "../private-route/private-route";
 import browserHistory from "../../browser-history/browser-history";
 import {AppRoute} from "../../constants/constants";
+import {init} from "../../store/api-actions";
 
-const App = ({films}) => {
+const App = ({films, isApplicationReady, initApp}) => {
   useEffect(() => {
-    checkAuth();
+    initApp();
   }, []);
+
+  if (!isApplicationReady) {
+    return <>Not ready</>;
+  }
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>
-        <Route exact path={AppRoute.ROOT}>
-          <Main />
-        </Route>
-        <Route exact path={AppRoute.LOGIN}>
-          <Login />
-        </Route>
+        <Route exact path={AppRoute.ROOT} component={Main} />
+        <Route exact path={AppRoute.LOGIN} component={Login} />
         <PrivateRoute exact
           path={AppRoute.MY_LIST}
           render={() => <MyList films={films}/>}
         >
         </PrivateRoute>
-        <Route exact path="/film/:id" component={Film} />
+        <Route exact path={AppRoute.FILM_ID} component={Film} />
         <PrivateRoute exact
-          path="/films/:id/review"
+          path={AppRoute.REVIEW_ID}
           render={() => <Review />}
         >
         </PrivateRoute>
-        <Route exact path="/player/:id">
-          <Player />
-        </Route>
-        <Route>
-          <NotFoundScreen />
-        </Route>
+        <Route exact path={AppRoute.PLAYER_ID} component={Player} />
+        <Route component={NotFoundScreen} />
       </Switch>
     </BrowserRouter>
   );
@@ -55,20 +51,20 @@ export {App};
 
 App.propTypes = {
   films: PropTypes.array.isRequired,
-  checkAuth: PropTypes.func.isRequired,
+  isApplicationReady: PropTypes.bool.isRequired,
+  initApp: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
   return {
     films: state.films,
+    isApplicationReady: state.isApplicationReady,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    checkAuth: () => {
-      dispatch(checkAuth());
-    },
+    initApp: () => dispatch(init())
   };
 };
 

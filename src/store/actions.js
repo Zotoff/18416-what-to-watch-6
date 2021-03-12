@@ -7,9 +7,16 @@ export const ActionType = {
   REDIRECT_TO_ROUTE: `REDIRECT_TO_ROUTE`,
   GET_COMMENT: `GET_COMMENT`,
   GET_PROMO_FILM: `GET_PROMO_FILM`,
+  GET_APPLICATION: `GET_APPLICATION`
 };
 
 export const ActionCreator = {
+  getApplication: (applicationReady)=>{
+    return {
+      type: ActionType.GET_APPLICATION,
+      payload: applicationReady
+    };
+  },
   getActiveGenre: (activeGenre)=>{
     return {
       type: ActionType.GET_ACTIVE_GENRE,

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Types} from "../../types/types";
 
-const VideoPlayer = ({playVideo, src, isVideo, poster})=> {
+const VideoPlayer = ({playVideo, src, isVideo, poster, name})=> {
   return (
     <>
       {
@@ -20,7 +20,6 @@ const VideoPlayer = ({playVideo, src, isVideo, poster})=> {
           :
           <img src={poster} alt={name} width="280" height="175"/>
       }
-
     </>
   );
 };
@@ -29,7 +28,8 @@ VideoPlayer.propTypes = {
   playVideo: Types.FUNCTION_REQUIRED,
   src: Types.STRING_REQUIRED,
   poster: Types.STRING_REQUIRED,
-  isVideo: Types.BOOLEAN_REQUIRED
+  isVideo: Types.BOOLEAN_REQUIRED,
+  name: Types.STRING_REQUIRED
 };
 
 export default VideoPlayer;

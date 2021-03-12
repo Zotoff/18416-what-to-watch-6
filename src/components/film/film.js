@@ -1,10 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {adaptFilms} from "../../utils/utils";
 import {AuthorizationStatus} from "../../constants/constants";
 
+import {PropTypes} from 'prop-types';
+
 import {Link} from 'react-router-dom';
+import {Types} from "../../types/types";
 
 import ArtBoard from '../artboard/artboard';
 import Footer from '../footer/footer';
@@ -13,7 +15,6 @@ const Film = (props) => {
 
   const {films, authorizationStatus} = props;
 
-  // eslint-disable-next-line react/prop-types
   const id = props.match.params.id;
 
   const singleFilm = films.find((f) => f.id === +id);
@@ -23,6 +24,7 @@ const Film = (props) => {
   return (
     <>
       <ArtBoard />
+
       <section className="movie-card movie-card--full">
         <div className="movie-card__hero">
           <div className="movie-card__bg">
@@ -56,13 +58,15 @@ const Film = (props) => {
               <div className="movie-card__buttons">
                 <Link to={`/player/${adaptedFilm.id}`} className="btn btn--play movie-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
+                    <use xlinkHref="#play-s">
+                    </use>
                   </svg>
                   <span>Play</span>
                 </Link>
                 <Link to={`/mylist/${adaptedFilm.id}`} className="btn btn--list movie-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
+                    <use xlinkHref="#add">
+                    </use>
                   </svg>
                   <span>My list</span>
                 </Link>
@@ -122,8 +126,21 @@ const mapStateToProps = (state) => ({
 });
 
 Film.propTypes = {
-  films: PropTypes.array.isRequired,
-  authorizationStatus: PropTypes.string.isRequired
+  films: Types.ARRAY_REQUIRED,
+  authorizationStatus: Types.STRING_REQUIRED,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: Types.STRING_REQUIRED
+    })
+  }),
+  adaptedFilm:
+    PropTypes.shape({
+      name: Types.STRING_REQUIRED,
+      posterImage: Types.STRING_REQUIRED,
+      genre: Types.STRING_REQUIRED,
+      released: Types.NUMBER_REQUIRED,
+      backgroundImage: Types.STRING_REQUIRED,
+    }),
 };
 
 export {Film};

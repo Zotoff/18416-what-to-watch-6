@@ -42,7 +42,10 @@ export const AppRoute = {
   LOGIN: `/login`,
   ROOT: `/`,
   RESULT: `/`,
-  MY_LIST: `/mylist`
+  MY_LIST: `/mylist`,
+  FILM_ID: `/film/:id`,
+  REVIEW_ID: `/films/:id/review`,
+  PLAYER_ID: `player/:id`
 };
 
 export const APIRoute = {

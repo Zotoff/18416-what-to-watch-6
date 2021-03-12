@@ -2,6 +2,7 @@ import {ActionType} from "./actions";
 import {Genres, AuthorizationStatus} from "../constants/constants";
 
 const initialState = {
+  isApplicationReady: false,
   activeGenre: Genres.ALL_GENRES,
   authorizationStatus: AuthorizationStatus.UNAUTHORIZED,
   films: [],
@@ -24,6 +25,11 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case ActionType.GET_APPLICATION:
+      return {
+        ...state,
+        isApplicationReady: action.payload
+      };
     case ActionType.GET_ACTIVE_GENRE:
       return {
         ...state,

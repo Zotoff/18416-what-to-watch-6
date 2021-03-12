@@ -1,11 +1,6 @@
 import {ActionCreator} from "./actions";
 import {AuthorizationStatus, APIRoute} from "../constants/constants";
 
-export const fetchFilmList = () => (dispatch, _getState, api) => (
-  api.get(APIRoute.FILMS)
-    .then(({data}) => dispatch(ActionCreator.loadFilms(data)))
-);
-
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGIN)
     .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTHORIZED)))
@@ -32,4 +27,11 @@ export const setComment = ({rating, comment}, id) => (dispatch, _getState, api) 
 export const getPromoFilm = () => (dispatch, _getState, api) => (
   api.get(APIRoute.PROMO)
     .then(({data}) => dispatch(ActionCreator.getPromoFilm(data)))
+);
+
+export const init = () => (dispatch, _getState, api) => (
+  api.get(APIRoute.FILMS)
+    .then(({data}) => dispatch(ActionCreator.loadFilms(data)))
+    .then(() => checkAuth())
+    .then(() => dispatch(ActionCreator.getApplication(true)))
 );

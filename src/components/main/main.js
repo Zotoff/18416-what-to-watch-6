@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {connect} from "react-redux";
 
 import FilmPromo from '../filmpromo/filmpromo';
@@ -11,18 +11,11 @@ import Spinner from "../spinner/spinner";
 import {getFilmsGenres} from '../../utils/utils';
 import {selectFilmsFromState} from '../../selectors/selectors';
 import {ActionCreator} from "../../store/actions";
-import {fetchFilmList} from "../../store/api-actions";
 import {GenresList} from '../../constants/constants';
 
 const Main = (props) => {
 
-  const {films, activeGenre, onGenreClick, isDataLoaded, onLoadData} = props;
-
-  useEffect(()=>{
-    if (!isDataLoaded) {
-      onLoadData();
-    }
-  }, [isDataLoaded]);
+  const {films, activeGenre, onGenreClick, isDataLoaded} = props;
 
   if (!isDataLoaded) {
     return (
@@ -69,7 +62,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     onGenreClick: (genre) => dispatch(ActionCreator.getActiveGenre(genre)),
-    onLoadData: () => dispatch(fetchFilmList()),
   };
 };
 
@@ -78,7 +70,6 @@ Main.propTypes = {
   activeGenre: PropTypes.string.isRequired,
   onGenreClick: PropTypes.func.isRequired,
   isDataLoaded: PropTypes.bool.isRequired,
-  onLoadData: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
