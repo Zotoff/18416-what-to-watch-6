@@ -1,5 +1,46 @@
+import moment from "moment";
+import {MINUTE_IN_HOUR, SECONDS_IN_MINUTE} from "../constants/constants";
+import {Genres} from "../constants/constants";
+
+export const calculateDate = (date) => {
+  const dateDuration = moment.duration(date, `minutes`);
+  const format = date > MINUTE_IN_HOUR ? `H[h] mm[m]` : `mm[m]`;
+  return moment.utc(dateDuration.as(`milliseconds`)).format(format).toString();
+};
+
 export const makeNewStateValue = (state, newStateValue) => {
   return Object.assign({}, state, newStateValue);
+};
+
+export const showFilmsLoop = (films, filmsCount) => {
+  return films.slice(0, filmsCount);
+};
+
+export const getVideoProgress = (video) => (Math.floor(video.currentTime) / (Math.floor(video.duration) / 100));
+
+export const dateCommentFormat = (date) => moment(date).format(`LL`);
+
+export const formatVideoTime = (time) => {
+  time = Math.floor(time);
+  const minutes = Math.floor(time / SECONDS_IN_MINUTE);
+  const seconds = Math.floor(time - minutes * SECONDS_IN_MINUTE);
+
+  const minutesVal = minutes < 10 ? `0${minutes}` : String(minutes);
+  const secondsVal = seconds < 10 ? `0${seconds}` : String(seconds);
+
+  return `${minutesVal}:${secondsVal}`;
+};
+
+export const sortComments = (commentA, commentB) => {
+  if (commentA.rating > commentB.rating) {
+    return -1;
+  }
+
+  if (commentA.rating < commentB.rating) {
+    return 1;
+  }
+
+  return 0;
 };
 
 export const getFilmsGenres = (genres) => {
@@ -7,14 +48,7 @@ export const getFilmsGenres = (genres) => {
 };
 
 export const getFilmsByGenre = (filmsList, activeGenre) => {
-  switch (activeGenre) {
-    case activeGenre:
-      return filmsList.filter((film) => {
-        return film.genre === activeGenre;
-      });
-    default:
-      return filmsList;
-  }
+  return (activeGenre === Genres.ALL_GENRES) ? filmsList : (filmsList.filter((film) => activeGenre === film.genre));
 };
 
 export const adaptFilms = (film) => {

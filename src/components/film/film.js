@@ -1,25 +1,28 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {adaptFilms} from "../../utils/utils";
 import {AuthorizationStatus} from "../../constants/constants";
+import {Redirect} from "react-router-dom";
 
 import {PropTypes} from 'prop-types';
 
 import {Link} from 'react-router-dom';
-import {Types} from "../../types/types";
+import {filmType} from "../../types/types";
+
+import Tabs from "../tabs/tabs";
 
 import ArtBoard from '../artboard/artboard';
-import Footer from '../footer/footer';
+import {LikeThis} from '../like-this/like-this';
 
 const Film = (props) => {
 
   const {films, authorizationStatus} = props;
 
   const id = props.match.params.id;
-
   const singleFilm = films.find((f) => f.id === +id);
 
-  const adaptedFilm = adaptFilms(singleFilm);
+  if (!singleFilm) {
+    return <Redirect to={`/notfound`} />;
+  }
 
   return (
     <>
@@ -28,7 +31,7 @@ const Film = (props) => {
       <section className="movie-card movie-card--full">
         <div className="movie-card__hero">
           <div className="movie-card__bg">
-            <img src={adaptedFilm.backgroundImage} alt={adaptedFilm.name} />
+            <img src={singleFilm.backgroundImage} alt={singleFilm.name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -49,28 +52,28 @@ const Film = (props) => {
 
           <div className="movie-card__wrap">
             <div className="movie-card__desc">
-              <h2 className="movie-card__title">{adaptedFilm.name}</h2>
+              <h2 className="movie-card__title">{singleFilm.name}</h2>
               <p className="movie-card__meta">
-                <span className="movie-card__genre">{adaptedFilm.genre}</span>
-                <span className="movie-card__year">{adaptedFilm.released}</span>
+                <span className="movie-card__genre">{singleFilm.genre}</span>
+                <span className="movie-card__year">{singleFilm.released}</span>
               </p>
 
               <div className="movie-card__buttons">
-                <Link to={`/player/${adaptedFilm.id}`} className="btn btn--play movie-card__button" type="button">
+                <Link to={`/player/${singleFilm.id}`} className="btn btn--play movie-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s">
                     </use>
                   </svg>
                   <span>Play</span>
                 </Link>
-                <Link to={`/mylist/${adaptedFilm.id}`} className="btn btn--list movie-card__button" type="button">
+                <Link to={`/mylist/${singleFilm.id}`} className="btn btn--list movie-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add">
                     </use>
                   </svg>
                   <span>My list</span>
                 </Link>
-                {authorizationStatus === AuthorizationStatus.AUTHORIZED ? (<Link to={`/films/${adaptedFilm.id}/review`} className="btn movie-card__button">Add review</Link>) : ``}
+                {authorizationStatus === AuthorizationStatus.AUTHORIZED ? (<Link to={`/films/${singleFilm.id}/review`} className="btn movie-card__button">Add review</Link>) : ``}
               </div>
             </div>
           </div>
@@ -79,43 +82,16 @@ const Film = (props) => {
         <div className="movie-card__wrap movie-card__translate-top">
           <div className="movie-card__info">
             <div className="movie-card__poster movie-card__poster--big">
-              <img src={adaptedFilm.posterImage} alt={adaptedFilm.name} width="218" height="327" />
+              <img src={singleFilm.posterImage} alt={singleFilm.name} width="218" height="327" />
             </div>
 
             <div className="movie-card__desc">
-              <nav className="movie-nav movie-card__nav">
-                <ul className="movie-nav__list">
-                  <li className="movie-nav__item movie-nav__item--active">
-                    <a href="#" className="movie-nav__link">Overview</a>
-                  </li>
-                  <li className="movie-nav__item">
-                    <a href="#" className="movie-nav__link">Details</a>
-                  </li>
-                  <li className="movie-nav__item">
-                    <a href="#" className="movie-nav__link">Reviews</a>
-                  </li>
-                </ul>
-              </nav>
-
-              <div className="movie-rating">
-                <div className="movie-rating__score">
-                </div>
-                <p className="movie-rating__meta">
-                  <span className="movie-rating__level">Very good</span>
-                  <span className="movie-rating__count">ratings</span>
-                </p>
-              </div>
-
-              <div className="movie-card__text">
-                <p className="movie-card__director"><strong>Director:</strong> {adaptedFilm.director}</p>
-
-                <p className="movie-card__starring"><strong>Starring:</strong> {adaptedFilm.starring}</p>
-              </div>
+              <Tabs film={singleFilm}/>
             </div>
           </div>
         </div>
       </section>
-      <Footer />
+      <LikeThis films={films} genre={singleFilm.genre} />
     </>
   );
 };
@@ -126,20 +102,22 @@ const mapStateToProps = (state) => ({
 });
 
 Film.propTypes = {
-  films: Types.ARRAY_REQUIRED,
-  authorizationStatus: Types.STRING_REQUIRED,
+  films: PropTypes.arrayOf(
+      filmType.isRequired
+  ),
+  authorizationStatus: PropTypes.string.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      id: Types.STRING_REQUIRED
+      id: PropTypes.string.isRequired
     })
   }),
-  adaptedFilm:
+  singleFilm:
     PropTypes.shape({
-      name: Types.STRING_REQUIRED,
-      posterImage: Types.STRING_REQUIRED,
-      genre: Types.STRING_REQUIRED,
-      released: Types.NUMBER_REQUIRED,
-      backgroundImage: Types.STRING_REQUIRED,
+      name: PropTypes.string.isRequired,
+      posterImage: PropTypes.string.isRequired,
+      genre: PropTypes.string.isRequired,
+      released: PropTypes.number.isRequired,
+      backgroundImage: PropTypes.string.isRequired,
     }),
 };
 

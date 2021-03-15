@@ -2,11 +2,10 @@ import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 
 import {Link} from 'react-router-dom';
-import {adaptFilms} from "../../utils/utils";
+import {filmType} from "../../types/types";
 import {connect} from "react-redux";
 import {AuthorizationStatus} from "../../constants/constants";
 import {getPromoFilm} from "../../store/api-actions";
-import {Types} from "../../types/types";
 
 const FilmPromo = (props) => {
 
@@ -16,9 +15,7 @@ const FilmPromo = (props) => {
     getPromoFromServer();
   }, []);
 
-  const adaptedFilm = adaptFilms(promoFilm);
-
-  const {name, posterImage, genre, released, backgroundImage} = adaptedFilm;
+  const {id, name, posterImage, genre, released, backgroundImage} = promoFilm;
 
   return (
     <section className="movie-card">
@@ -56,13 +53,13 @@ const FilmPromo = (props) => {
             </p>
 
             <div className="movie-card__buttons">
-              <button className="btn btn--play movie-card__button" type="button">
+              <Link to={`player/${id}`} className="btn btn--play movie-card__button" type="button">
                 <svg viewBox="0 0 19 19" width="19" height="19">
                   <use xlinkHref="#play-s">
                   </use>
                 </svg>
                 <span>Play</span>
-              </button>
+              </Link>
               <Link to={`/mylist`} className="btn btn--list movie-card__button" type="button">
                 <svg viewBox="0 0 19 20" width="19" height="20">
                   <use xlinkHref="#add">
@@ -79,17 +76,9 @@ const FilmPromo = (props) => {
 };
 
 FilmPromo.propTypes = {
-  adaptedFilm:
-    PropTypes.shape({
-      name: Types.STRING_REQUIRED,
-      posterImage: Types.STRING_REQUIRED,
-      genre: Types.STRING_REQUIRED,
-      released: Types.NUMBER_REQUIRED,
-      backgroundImage: Types.STRING_REQUIRED,
-    }),
-  authorizationStatus: Types.STRING_REQUIRED,
-  getPromoFromServer: Types.FUNCTION_REQUIRED,
-  promoFilm: Types.OBJECT_REQUIRED
+  promoFilm: filmType.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
+  getPromoFromServer: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

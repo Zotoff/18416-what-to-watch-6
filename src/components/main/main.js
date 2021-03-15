@@ -1,27 +1,33 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {connect} from "react-redux";
 
 import FilmPromo from '../filmpromo/filmpromo';
 import Footer from '../footer/footer';
 import GenreList from "../genrelist/genre-list";
-import MoviesList from "../movieslist/movieslist";
+import MoviesList from "../movies-list/movies-list";
 import PropTypes from 'prop-types';
-import Spinner from "../spinner/spinner";
 
 import {getFilmsGenres} from '../../utils/utils';
 import {selectFilmsFromState} from '../../selectors/selectors';
 import {ActionCreator} from "../../store/actions";
-import {GenresList} from '../../constants/constants';
+import {GenresList, FILMS_COUNT_PER_STEP, VISIBLE_FILMS} from '../../constants/constants';
+import ShowMoreButton from "../show-more-button/show-more-button";
+import {filmType} from "../../types/types";
 
 const Main = (props) => {
 
-  const {films, activeGenre, onGenreClick, isDataLoaded} = props;
+  const {films, activeGenre, onGenreClick} = props;
 
-  if (!isDataLoaded) {
-    return (
-      <Spinner />
-    );
-  }
+  const [filmsVisibleNum, setFilmsVisibleNum] = useState(VISIBLE_FILMS);
+
+  const handleGenreClick = (genre) => {
+    onGenreClick(genre);
+  };
+
+  // Handle show more click button
+  const handleShowMoreClick = () => {
+    setFilmsVisibleNum(filmsVisibleNum + FILMS_COUNT_PER_STEP);
+  };
 
   return (
     <>
@@ -34,13 +40,13 @@ const Main = (props) => {
           <GenreList
             genres={getFilmsGenres(GenresList)}
             currentActiveGenre={activeGenre}
-            onGenreClick={onGenreClick}
+            handleGenreClick={handleGenreClick}
           />
 
-          <MoviesList films={films} />
+          <MoviesList films={films} visibleNum={filmsVisibleNum} />
 
           <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
+            {films.length > filmsVisibleNum && <ShowMoreButton handleClick={handleShowMoreClick} />}
           </div>
         </section>
 
@@ -66,7 +72,9 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 Main.propTypes = {
-  films: PropTypes.array.isRequired,
+  films: PropTypes.arrayOf(
+      filmType.isRequired
+  ),
   activeGenre: PropTypes.string.isRequired,
   onGenreClick: PropTypes.func.isRequired,
   isDataLoaded: PropTypes.bool.isRequired,

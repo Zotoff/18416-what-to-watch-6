@@ -15,6 +15,7 @@ import PrivateRoute from "../private-route/private-route";
 import browserHistory from "../../browser-history/browser-history";
 import {AppRoute} from "../../constants/constants";
 import {init} from "../../store/api-actions";
+import {filmType} from "../../types/types";
 
 const App = ({films, isApplicationReady, initApp}) => {
   useEffect(() => {
@@ -22,8 +23,9 @@ const App = ({films, isApplicationReady, initApp}) => {
   }, []);
 
   if (!isApplicationReady) {
-    return <>Not ready</>;
+    return <p>Not ready</p>;
   }
+
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>
@@ -37,10 +39,16 @@ const App = ({films, isApplicationReady, initApp}) => {
         <Route exact path={AppRoute.FILM_ID} component={Film} />
         <PrivateRoute exact
           path={AppRoute.REVIEW_ID}
-          render={() => <Review />}
+          render={({match}) => (
+            <Review match={match}/>
+          )}
         >
         </PrivateRoute>
-        <Route exact path={AppRoute.PLAYER_ID} component={Player} />
+        <Route exact path={AppRoute.PLAYER_ID}>
+          <Player films={films} handlePlayerExit={() => {
+            history.back();
+          }}/>
+        </Route>
         <Route component={NotFoundScreen} />
       </Switch>
     </BrowserRouter>
@@ -50,7 +58,9 @@ const App = ({films, isApplicationReady, initApp}) => {
 export {App};
 
 App.propTypes = {
-  films: PropTypes.array.isRequired,
+  films: PropTypes.arrayOf(
+      filmType.isRequired
+  ),
   isApplicationReady: PropTypes.bool.isRequired,
   initApp: PropTypes.func.isRequired
 };

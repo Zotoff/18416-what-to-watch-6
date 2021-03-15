@@ -5,13 +5,14 @@ export const ActionType = {
   REQUIRED_AUTHORIZATION: `REQUIRED_AUTHORIZATION:`,
   GET_SINGLE_FILM: `GET_SINGLE_FILM`,
   REDIRECT_TO_ROUTE: `REDIRECT_TO_ROUTE`,
-  GET_COMMENT: `GET_COMMENT`,
+  LOAD_COMMENTS: `LOAD_COMMENTS`,
   GET_PROMO_FILM: `GET_PROMO_FILM`,
-  GET_APPLICATION: `GET_APPLICATION`
+  GET_APPLICATION: `GET_APPLICATION`,
+  SHOW_MORE_FILMS: `SHOW_MORE_FILMS`
 };
 
 export const ActionCreator = {
-  getApplication: (applicationReady)=>{
+  setApplication: (applicationReady)=>{
     return {
       type: ActionType.GET_APPLICATION,
       payload: applicationReady
@@ -29,6 +30,12 @@ export const ActionCreator = {
       payload: films
     };
   },
+  loadComments: (comments) => {
+    return {
+      type: ActionType.LOAD_COMMENTS,
+      payload: comments
+    };
+  },
   requireAuthorization: (status) => ({
     type: ActionType.REQUIRED_AUTHORIZATION,
     payload: status,
@@ -43,13 +50,13 @@ export const ActionCreator = {
       payload: film
     };
   },
-  getComment: (comment) => ({
-    type: ActionType.GET_COMMENT,
-    payload: comment
-  }),
   getPromoFilm: (film) => ({
     type: ActionType.GET_PROMO_FILM,
     payload: film
+  }),
+  showMoreFilms: (filmsCount) => ({
+    type: ActionType.SHOW_MORE_FILMS,
+    payload: filmsCount
   })
 };
 

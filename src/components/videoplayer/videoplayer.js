@@ -1,5 +1,5 @@
-import React from 'react';
-import {Types} from "../../types/types";
+import React from "react";
+import PropTypes from "prop-types";
 
 const VideoPlayer = ({playVideo, src, isVideo, poster, name})=> {
   return (
@@ -25,11 +25,11 @@ const VideoPlayer = ({playVideo, src, isVideo, poster, name})=> {
 };
 
 VideoPlayer.propTypes = {
-  playVideo: Types.FUNCTION_REQUIRED,
-  src: Types.STRING_REQUIRED,
-  poster: Types.STRING_REQUIRED,
-  isVideo: Types.BOOLEAN_REQUIRED,
-  name: Types.STRING_REQUIRED
+  playVideo: PropTypes.func.isRequired,
+  src: PropTypes.string.isRequired,
+  poster: PropTypes.string.isRequired,
+  isVideo: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired
 };
 
 export default VideoPlayer;

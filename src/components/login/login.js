@@ -45,6 +45,7 @@ const Login = ({onSubmit}) => {
                   placeholder="Email address"
                   name="user-email"
                   id="user-email"
+                  isRequired
                 />
                 <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
               </div>
@@ -56,6 +57,7 @@ const Login = ({onSubmit}) => {
                   placeholder="Password"
                   name="user-password"
                   id="user-password"
+                  isRequired
                 />
                 <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
               </div>

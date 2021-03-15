@@ -6,7 +6,7 @@ import FilmCard from '../filmcard/filmcard';
 import Footer from '../footer/footer';
 import {Link} from 'react-router-dom';
 
-import {Types} from "../../types/types";
+import {filmType} from "../../types/types";
 import {AuthorizationStatus} from "../../constants/constants";
 
 const MyList = (props) => {
@@ -52,8 +52,10 @@ const mapStateToProps = (state) => ({
 });
 
 MyList.propTypes = {
-  films: PropTypes.array.isRequired,
-  authorizationStatus: Types.STRING_REQUIRED
+  films: PropTypes.arrayOf(
+      filmType.isRequired
+  ),
+  authorizationStatus: PropTypes.string.isRequired
 };
 
 export {MyList};

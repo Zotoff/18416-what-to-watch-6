@@ -1,10 +1,8 @@
-export const promoFilm = {
-  title: `Grand Budapest`,
-  poster: `img/the-grand-budapest-hotel-poster.jpg`,
-  alt: `The Grand Budapest Hotel poster`,
-  genre: `Drama`,
-  year: `2014`,
-};
+export const MAX_LIKE_FILMS_COUNT = 4;
+export const VISIBLE_FILMS = 8;
+export const MINUTE_IN_HOUR = 60;
+export const FILMS_COUNT_PER_STEP = 4;
+export const SECONDS_IN_MINUTE = 60;
 
 export const Genres = {
   ALL_GENRES: `All genres`,
@@ -33,6 +31,12 @@ export const GenresList = [
   `Action`,
 ];
 
+export const TabsTypes = {
+  OVERVIEW_TAB: `Overview`,
+  REVIEWS_TAB: `Reviews`,
+  DETAILS_TAB: `Details`
+};
+
 export const AuthorizationStatus = {
   AUTHORIZED: `AUTHORIZED`,
   UNAUTHORIZED: `UNAUTHORIZED`
@@ -45,7 +49,7 @@ export const AppRoute = {
   MY_LIST: `/mylist`,
   FILM_ID: `/film/:id`,
   REVIEW_ID: `/films/:id/review`,
-  PLAYER_ID: `player/:id`
+  PLAYER_ID: `/player/:id`
 };
 
 export const APIRoute = {

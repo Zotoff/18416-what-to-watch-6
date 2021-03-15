@@ -2,19 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const GenreList = (props) => {
-  const {genres, onGenreClick, currentActiveGenre} = props;
+  const {genres, handleGenreClick, currentActiveGenre} = props;
   return (
     <ul className="catalog__genres-list">
       {
         genres.map((genre, index) => {
           return (<li key={index} className={`catalog__genres-item ${genre === currentActiveGenre ? `catalog__genres-item--active` : ``}`}>
-            <a
+            <span
               className="catalog__genres-link"
-              onClick={(evt) => {
-                evt.preventDefault();
-                onGenreClick(genre);
+              style={{cursor: `pointer`}}
+              onClick={({target}) => {
+                handleGenreClick(target.textContent);
               }}
-            >{genre}</a>
+            >{genre}
+            </span>
           </li>);
         })
       }
@@ -25,7 +26,7 @@ const GenreList = (props) => {
 GenreList.propTypes = {
   genres: PropTypes.array.isRequired,
   currentActiveGenre: PropTypes.string.isRequired,
-  onGenreClick: PropTypes.func.isRequired,
+  handleGenreClick: PropTypes.func.isRequired,
 };
 
 export default GenreList;
