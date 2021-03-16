@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
+import {RATING_INPUTS_COUNT} from "../../constants/constants";
 
 import {setComment} from "../../store/api-actions";
 
@@ -11,60 +12,60 @@ const CommentForm = ({onSubmit, id}) => {
     rating: 0
   });
 
-  const [isTextEntered, setIstextEntered] = useState(false);
+  const [formError, setFormError] = useState(false);
   const [formSubmitStatus, setIsFormSubmitStatus] = useState(false);
+  const [isTextEntered, setIstextEntered] = useState(false);
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    setTimeout(onSubmit(
-        {
-          rating: commentForm.rating,
-          comment: commentForm.reviewText,
-        },
-        id), 1000);
-    setIsFormSubmitStatus(true);
+    const commentRating = commentForm.rating;
+    const commentMessage = commentForm.reviewText;
+    if (commentRating === 0) {
+      setFormError(true);
+    } else {
+      setFormError(false);
+      onSubmit(
+          {
+            rating: commentRating,
+            comment: commentMessage
+          },
+          id);
+      setIsFormSubmitStatus(true);
+    }
   };
 
   const handleFieldChange = (evt) => {
-    const {name, value} = evt.target;
+    let {name, value} = evt.target;
     setIstextEntered(true);
     setCommentForm({...commentForm, [name]: value});
+  };
+
+  const renderInputStars = () => {
+    const inputStarsArray = RATING_INPUTS_COUNT;
+    return (
+      inputStarsArray.map((value, index) => {
+        return (
+          <React.Fragment key={index}>
+            <input className="rating__input" id={`star-${value}`} onChange={handleFieldChange} disabled={formSubmitStatus} type="radio" name="rating" value={value}/>
+            <label className="rating__label" htmlFor={`star-${value}`}>Rating ${value}</label>
+          </React.Fragment>
+        );
+      }
+      )
+    );
   };
 
   return (
     <div className="add-review">
       <form action="#" className="add-review__form" onSubmit={handleSubmit}>
+        <div className="add-review__message">
+          {formError ? (<p>Please select the film rating</p>) : ``}
+        </div>
         <div className="rating">
           <div className="rating__stars" >
-            <input className="rating__input" id="star-1" onChange={handleFieldChange} disabled={formSubmitStatus} type="radio" name="rating" value="1"/>
-            <label className="rating__label" htmlFor="star-1">Rating 1</label>
-
-            <input className="rating__input" id="star-2" onChange={handleFieldChange} disabled={formSubmitStatus} type="radio" name="rating" value="2" />
-            <label className="rating__label" htmlFor="star-2">Rating 2</label>
-
-            <input className="rating__input" id="star-3" onChange={handleFieldChange} disabled={formSubmitStatus} type="radio" name="rating" value="3" />
-            <label className="rating__label" htmlFor="star-3">Rating 3</label>
-
-            <input className="rating__input" id="star-4" onChange={handleFieldChange} disabled={formSubmitStatus} type="radio" name="rating" value="4" />
-            <label className="rating__label" htmlFor="star-4">Rating 4</label>
-
-            <input className="rating__input" id="star-5" onChange={handleFieldChange} disabled={formSubmitStatus} type="radio" name="rating" value="5" />
-            <label className="rating__label" htmlFor="star-5">Rating 5</label>
-
-            <input className="rating__input" id="star-6" onChange={handleFieldChange} disabled={formSubmitStatus} type="radio" name="rating" value="6"/>
-            <label className="rating__label" htmlFor="star-6">Rating 6</label>
-
-            <input className="rating__input" id="star-7" onChange={handleFieldChange} disabled={formSubmitStatus} type="radio" name="rating" value="7" />
-            <label className="rating__label" htmlFor="star-7">Rating 7</label>
-
-            <input className="rating__input" id="star-8" onChange={handleFieldChange} disabled={formSubmitStatus} type="radio" name="rating" value="8" />
-            <label className="rating__label" htmlFor="star-8">Rating 8</label>
-
-            <input className="rating__input" id="star-9" onChange={handleFieldChange} disabled={formSubmitStatus} type="radio" name="rating" value="9" />
-            <label className="rating__label" htmlFor="star-9">Rating 9</label>
-
-            <input className="rating__input" id="star-10" onChange={handleFieldChange} disabled={formSubmitStatus} type="radio" name="rating" value="10" />
-            <label className="rating__label" htmlFor="star-10">Rating 10</label>
+            {
+              renderInputStars()
+            }
           </div>
         </div>
 

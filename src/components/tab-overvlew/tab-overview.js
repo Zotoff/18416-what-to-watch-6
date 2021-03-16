@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {translateRatingToWords} from "../../utils/utils";
 
 const TabOverView = (props) => {
   const {director, rating, description, scoresCount, starring} = props;
@@ -8,7 +9,7 @@ const TabOverView = (props) => {
       <div className="movie-rating">
         <div className="movie-rating__score">{rating}</div>
         <p className="movie-rating__meta">
-          <span className="movie-rating__level">Very good</span>
+          <span className="movie-rating__level">{translateRatingToWords(rating)}</span>
           <span className="movie-rating__count">{scoresCount} ratings</span>
         </p>
       </div>

@@ -11,6 +11,7 @@ import {AuthorizationStatus} from "../../constants/constants";
 
 const MyList = (props) => {
   const {films, authorizationStatus} = props;
+  const filmsForMyList = films.filter((film) => film.isFavorite === true);
   return (
     <>
       <ArtBoard />
@@ -35,12 +36,11 @@ const MyList = (props) => {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <div className="catalog__movies-list">
-            {films.map((film, index) => {
+            {filmsForMyList.map((film, index) => {
               return <FilmCard key={index} film={film} />;
             })}
           </div>
         </section>
-
         <Footer />
       </div>
     </>

@@ -1,5 +1,8 @@
-import React from 'react';
+import React from "react";
+import {connect} from "react-redux";
 import PropTypes from 'prop-types';
+import {getFilmsGenres} from "../../utils/utils";
+import {filmType} from "../../types/types";
 
 const GenreList = (props) => {
   const {genres, handleGenreClick, currentActiveGenre} = props;
@@ -23,11 +26,19 @@ const GenreList = (props) => {
   );
 };
 
+const mapStateToProps = (state) => ({
+  films: state.films,
+  genres: getFilmsGenres(state.films)
+});
+
 GenreList.propTypes = {
   genres: PropTypes.array.isRequired,
+  films: PropTypes.arrayOf(
+      filmType.isRequired
+  ),
   currentActiveGenre: PropTypes.string.isRequired,
   handleGenreClick: PropTypes.func.isRequired,
 };
 
-export default GenreList;
+export default connect(mapStateToProps)(GenreList);
 

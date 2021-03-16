@@ -12,6 +12,7 @@ import Tabs from "../tabs/tabs";
 
 import ArtBoard from '../artboard/artboard';
 import {LikeThis} from '../like-this/like-this';
+import MyListBtn from "../my-list-btn/my-list-btn";
 
 const Film = (props) => {
 
@@ -66,13 +67,7 @@ const Film = (props) => {
                   </svg>
                   <span>Play</span>
                 </Link>
-                <Link to={`/mylist/${singleFilm.id}`} className="btn btn--list movie-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add">
-                    </use>
-                  </svg>
-                  <span>My list</span>
-                </Link>
+                {authorizationStatus !== AuthorizationStatus.UNAUTHORIZED ? (<MyListBtn film={singleFilm} />) : `` }
                 {authorizationStatus === AuthorizationStatus.AUTHORIZED ? (<Link to={`/films/${singleFilm.id}/review`} className="btn movie-card__button">Add review</Link>) : ``}
               </div>
             </div>
@@ -91,7 +86,7 @@ const Film = (props) => {
           </div>
         </div>
       </section>
-      <LikeThis films={films} genre={singleFilm.genre} />
+      <LikeThis films={films} genre={singleFilm.genre} idToHide={singleFilm.id} />
     </>
   );
 };

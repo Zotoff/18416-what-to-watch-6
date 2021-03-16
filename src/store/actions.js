@@ -8,7 +8,8 @@ export const ActionType = {
   LOAD_COMMENTS: `LOAD_COMMENTS`,
   GET_PROMO_FILM: `GET_PROMO_FILM`,
   GET_APPLICATION: `GET_APPLICATION`,
-  SHOW_MORE_FILMS: `SHOW_MORE_FILMS`
+  SHOW_MORE_FILMS: `SHOW_MORE_FILMS`,
+  SET_COMMENT: `SET_COMMENT`
 };
 
 export const ActionCreator = {
@@ -33,7 +34,13 @@ export const ActionCreator = {
   loadComments: (comments) => {
     return {
       type: ActionType.LOAD_COMMENTS,
-      payload: comments
+      payload: comments[`data`]
+    };
+  },
+  setComment: (comment) => {
+    return {
+      type: ActionType.SET_COMMENT,
+      payload: comment
     };
   },
   requireAuthorization: (status) => ({

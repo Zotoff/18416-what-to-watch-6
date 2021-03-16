@@ -6,6 +6,7 @@ import {filmType} from "../../types/types";
 import {connect} from "react-redux";
 import {AuthorizationStatus} from "../../constants/constants";
 import {getPromoFilm} from "../../store/api-actions";
+import MyListBtn from "../my-list-btn/my-list-btn";
 
 const FilmPromo = (props) => {
 
@@ -60,13 +61,11 @@ const FilmPromo = (props) => {
                 </svg>
                 <span>Play</span>
               </Link>
-              <Link to={`/mylist`} className="btn btn--list movie-card__button" type="button">
-                <svg viewBox="0 0 19 20" width="19" height="20">
-                  <use xlinkHref="#add">
-                  </use>
-                </svg>
-                <span>My list</span>
-              </Link>
+              {authorizationStatus !== AuthorizationStatus.UNAUTHORIZED ?
+                <MyListBtn film={promoFilm} />
+                :
+                ``
+              }
             </div>
           </div>
         </div>

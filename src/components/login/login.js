@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import Footer from '../footer/footer';
 import ArtBoard from '../artboard/artboard';
 import {Link} from 'react-router-dom';
@@ -10,12 +10,21 @@ const Login = ({onSubmit}) => {
   const loginRef = useRef();
   const passwordRef = useRef();
 
+  const [emailError, setEmailError] = useState(false);
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    onSubmit({
-      login: loginRef.current.value,
-      password: passwordRef.current.value
-    });
+    const loginValue = loginRef.current.value;
+    const passwordValue = passwordRef.current.value;
+    if (!loginValue) {
+      setEmailError(true);
+    } else {
+      setEmailError(false);
+      onSubmit({
+        login: loginValue,
+        password: passwordValue
+      });
+    }
   };
 
   return (
@@ -36,6 +45,9 @@ const Login = ({onSubmit}) => {
 
         <div className="sign-in user-page__content">
           <form action="#" className="sign-in__form" onSubmit={handleSubmit}>
+            <div className="sign-in__message">
+              {emailError ? (<p>Please enter a valid email address</p>) : ``}
+            </div>
             <div className="sign-in__fields">
               <div className="sign-in__field">
                 <input
@@ -45,7 +57,7 @@ const Login = ({onSubmit}) => {
                   placeholder="Email address"
                   name="user-email"
                   id="user-email"
-                  isRequired
+                  isrequired="true"
                 />
                 <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
               </div>
@@ -57,7 +69,7 @@ const Login = ({onSubmit}) => {
                   placeholder="Password"
                   name="user-password"
                   id="user-password"
-                  isRequired
+                  isrequired="true"
                 />
                 <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
               </div>

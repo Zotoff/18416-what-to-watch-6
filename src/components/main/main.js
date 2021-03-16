@@ -7,10 +7,9 @@ import GenreList from "../genrelist/genre-list";
 import MoviesList from "../movies-list/movies-list";
 import PropTypes from 'prop-types';
 
-import {getFilmsGenres} from '../../utils/utils';
 import {selectFilmsFromState} from '../../selectors/selectors';
 import {ActionCreator} from "../../store/actions";
-import {GenresList, FILMS_COUNT_PER_STEP, VISIBLE_FILMS} from '../../constants/constants';
+import {FILMS_COUNT_PER_STEP, VISIBLE_FILMS} from '../../constants/constants';
 import ShowMoreButton from "../show-more-button/show-more-button";
 import {filmType} from "../../types/types";
 
@@ -38,7 +37,6 @@ const Main = (props) => {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <GenreList
-            genres={getFilmsGenres(GenresList)}
             currentActiveGenre={activeGenre}
             handleGenreClick={handleGenreClick}
           />

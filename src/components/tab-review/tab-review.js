@@ -2,8 +2,9 @@ import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 
-import {getReviews} from "../../store/api-actions";
+import {getComments} from "../../store/api-actions";
 import {sortComments, dateCommentFormat} from "../../utils/utils";
+import {commentType} from "../../types/types";
 
 const createCommentTemplate = (comments) => {
   if (comments) {
@@ -36,21 +37,14 @@ const TabReview = (props) => {
     loadReviews(id);
   }, []);
 
-  let loadedComments;
-
+  const commentsArray = props.comments;
   let firstCommentsArray;
   let secondCommentsArray;
 
-  if (props.comments) {
-    loadedComments = props.comments[`data`];
-  }
-
-
-  if (loadedComments) {
-    const sortedComments = loadedComments.slice().sort(sortComments);
-    const commentsArrayLength = Object.keys(loadedComments).length;
+  if (commentsArray.length > 0) {
+    const sortedComments = commentsArray.slice().sort(sortComments);
+    const commentsArrayLength = Object.keys(commentsArray).length;
     const commentsHalfArrayLength = Math.round(commentsArrayLength / 2);
-
     firstCommentsArray = sortedComments.slice(0, commentsHalfArrayLength);
     secondCommentsArray = sortedComments.slice(commentsHalfArrayLength);
   }
@@ -82,14 +76,17 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadReviews: (id) => dispatch(getReviews(id))
+    loadReviews: (id) => dispatch(getComments(id))
   };
 };
+
 
 TabReview.propTypes = {
   id: PropTypes.number.isRequired,
   loadReviews: PropTypes.func.isRequired,
-  comments: PropTypes.object.isRequired
+  comments: PropTypes.arrayOf(
+      commentType.isRequired
+  )
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabReview);

@@ -20,3 +20,15 @@ export const filmType = shape({
   starring: PropTypes.array.isRequired,
   videoLink: PropTypes.string.isRequired,
 });
+
+export const commentType = shape({
+  id: PropTypes.number.isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired
+  }),
+  rating: PropTypes.number.isRequired,
+  comment: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired
+});
+

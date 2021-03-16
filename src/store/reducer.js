@@ -1,11 +1,13 @@
 import {ActionType} from "./actions";
-import {Genres, AuthorizationStatus} from "../constants/constants";
+import {ALL_GENRES, AuthorizationStatus} from "../constants/constants";
 
 const initialState = {
   isApplicationReady: false,
-  activeGenre: Genres.ALL_GENRES,
+  activeGenre: ALL_GENRES,
   authorizationStatus: AuthorizationStatus.UNAUTHORIZED,
   films: [],
+  genres: [],
+  isfavorite: false,
   filmsCount: 8,
   isDataLoaded: false,
   singleFilm: {
@@ -46,7 +48,8 @@ const initialState = {
     starring: [`Michael Fassbender`, `Marion Cotillard`, `Jack Madigan`],
     videoLink: `http://peach.themazzone.com/durian/movies/sintel-1024-surround.mp4`
   },
-  comments: {}
+  comments: [],
+  comment: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -93,6 +96,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         filmsCount: action.payload
+      };
+    case ActionType.SET_COMMENT:
+      return {
+        ...state,
+        comment: action.payload
       };
   }
   return state;

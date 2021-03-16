@@ -8,13 +8,19 @@ export const checkAuth = () => (dispatch, _getState, api) => (
     .catch(() => {})
 );
 
+export const loadFilms = () => (dispatch, _getState, api) => (
+  api.get(APIRoute.FILMS)
+    .then(({data}) => data.map((film) => adaptFilms(film)))
+    .then((films) => dispatch(ActionCreator.loadFilms(films)))
+);
+
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
   api.post(APIRoute.LOGIN, {email, password})
     .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTHORIZED)))
     .then(() => dispatch(ActionCreator.redirectToRoute(`/`)))
 );
 
-export const getReviews = (id) => (dispatch, _getState, api) => (
+export const getComments = (id) => (dispatch, _getState, api) => (
   api.get(`${APIRoute.COMMENT}/${id}`)
     .then((data) => dispatch(ActionCreator.loadComments(data)))
     .catch((error) => {
@@ -24,7 +30,7 @@ export const getReviews = (id) => (dispatch, _getState, api) => (
 
 export const setComment = ({rating, comment}, id) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.COMMENT}/${id}`, {rating, comment})
-    .then(({data}) => dispatch(ActionCreator.getComment(data)))
+    .then(({data}) => dispatch(ActionCreator.setComment(data)))
     .then(() => dispatch(ActionCreator.redirectToRoute(`/film/${id}`)))
     .catch((error) => {
       throw error;
@@ -35,6 +41,13 @@ export const getPromoFilm = () => (dispatch, _getState, api) => (
   api.get(APIRoute.PROMO)
     .then(({data}) => adaptFilms(data))
     .then((film) => dispatch(ActionCreator.getPromoFilm(film)))
+);
+
+export const changeMyList = (id, status) => (dispatch, _getState, api) => (
+  api.post(`${APIRoute.FAVORITE}/${id}/${status}`)
+    .then(() => dispatch(loadFilms()))
+    .then(() => dispatch(getPromoFilm()))
+    .catch(() => {})
 );
 
 export const init = () => (dispatch, _getState, api) => (
