@@ -1,20 +1,24 @@
-import React from 'react';
+import React from "react";
+import {connect} from "react-redux";
 import PropTypes from 'prop-types';
+import {getFilmsGenres} from "../../utils/utils";
+import {filmType} from "../../types/types";
 
 const GenreList = (props) => {
-  const {genres, onGenreClick, currentActiveGenre} = props;
+  const {genres, handleGenreClick, currentActiveGenre} = props;
   return (
     <ul className="catalog__genres-list">
       {
         genres.map((genre, index) => {
           return (<li key={index} className={`catalog__genres-item ${genre === currentActiveGenre ? `catalog__genres-item--active` : ``}`}>
-            <a
+            <span
               className="catalog__genres-link"
-              onClick={(evt) => {
-                evt.preventDefault();
-                onGenreClick(genre);
+              style={{cursor: `pointer`}}
+              onClick={({target}) => {
+                handleGenreClick(target.textContent);
               }}
-            >{genre}</a>
+            >{genre}
+            </span>
           </li>);
         })
       }
@@ -22,11 +26,19 @@ const GenreList = (props) => {
   );
 };
 
+const mapStateToProps = (state) => ({
+  films: state.films,
+  genres: getFilmsGenres(state.films)
+});
+
 GenreList.propTypes = {
   genres: PropTypes.array.isRequired,
+  films: PropTypes.arrayOf(
+      filmType.isRequired
+  ),
   currentActiveGenre: PropTypes.string.isRequired,
-  onGenreClick: PropTypes.func.isRequired,
+  handleGenreClick: PropTypes.func.isRequired,
 };
 
-export default GenreList;
+export default connect(mapStateToProps)(GenreList);
 

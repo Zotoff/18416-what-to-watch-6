@@ -1,34 +1,32 @@
-import React, {useEffect} from 'react';
+import React, {useState} from 'react';
 import {connect} from "react-redux";
 
 import FilmPromo from '../filmpromo/filmpromo';
 import Footer from '../footer/footer';
 import GenreList from "../genrelist/genre-list";
-import MoviesList from "../movieslist/movieslist";
+import MoviesList from "../movies-list/movies-list";
 import PropTypes from 'prop-types';
-import Spinner from "../spinner/spinner";
 
-import {getFilmsGenres} from '../../utils/utils';
 import {selectFilmsFromState} from '../../selectors/selectors';
 import {ActionCreator} from "../../store/actions";
-import {fetchFilmList} from "../../store/api-actions";
-import {GenresList} from '../../constants/constants';
+import {FILMS_COUNT_PER_STEP, VISIBLE_FILMS} from '../../constants/constants';
+import ShowMoreButton from "../show-more-button/show-more-button";
+import {filmType} from "../../types/types";
 
 const Main = (props) => {
 
-  const {films, activeGenre, onGenreClick, isDataLoaded, onLoadData} = props;
+  const {films, activeGenre, onGenreClick} = props;
 
-  useEffect(()=>{
-    if (!isDataLoaded) {
-      onLoadData();
-    }
-  }, [isDataLoaded]);
+  const [filmsVisibleNum, setFilmsVisibleNum] = useState(VISIBLE_FILMS);
 
-  if (!isDataLoaded) {
-    return (
-      <Spinner />
-    );
-  }
+  const handleGenreClick = (genre) => {
+    onGenreClick(genre);
+  };
+
+  // Handle show more click button
+  const handleShowMoreClick = () => {
+    setFilmsVisibleNum(filmsVisibleNum + FILMS_COUNT_PER_STEP);
+  };
 
   return (
     <>
@@ -39,15 +37,14 @@ const Main = (props) => {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <GenreList
-            genres={getFilmsGenres(GenresList)}
             currentActiveGenre={activeGenre}
-            onGenreClick={onGenreClick}
+            handleGenreClick={handleGenreClick}
           />
 
-          <MoviesList films={films} />
+          <MoviesList films={films} visibleNum={filmsVisibleNum} />
 
           <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
+            {films.length > filmsVisibleNum && <ShowMoreButton handleClick={handleShowMoreClick} />}
           </div>
         </section>
 
@@ -69,16 +66,16 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     onGenreClick: (genre) => dispatch(ActionCreator.getActiveGenre(genre)),
-    onLoadData: () => dispatch(fetchFilmList()),
   };
 };
 
 Main.propTypes = {
-  films: PropTypes.array.isRequired,
+  films: PropTypes.arrayOf(
+      filmType.isRequired
+  ),
   activeGenre: PropTypes.string.isRequired,
   onGenreClick: PropTypes.func.isRequired,
   isDataLoaded: PropTypes.bool.isRequired,
-  onLoadData: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

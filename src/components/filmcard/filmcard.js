@@ -1,17 +1,15 @@
 import React, {useState} from 'react';
-import PropTypes from 'prop-types';
 
 import VideoPlayer from "../videoplayer/videoplayer";
 
 import {useHistory} from 'react-router-dom';
-import {Types} from '../../types/types';
-import {adaptFilms} from "../../utils/utils";
+import {filmType} from '../../types/types';
 
 const FilmCard = (props) => {
 
   const [isVideo, setIsVideo] = useState(false);
-  const adaptedFilm = adaptFilms(props.film);
-  const {posterImage, previewVideoLink, name, id} = adaptedFilm;
+  const {film} = props;
+  const {posterImage, previewVideoLink, name, id} = film;
   const history = useHistory();
 
   const playVideo = (element) => {
@@ -40,6 +38,7 @@ const FilmCard = (props) => {
             isVideo={isVideo}
             playVideo={playVideo}
             poster={posterImage}
+            name={name}
           />
         </div>
         <h3 className="small-movie-card__title">
@@ -58,13 +57,5 @@ const FilmCard = (props) => {
 export default FilmCard;
 
 FilmCard.propTypes = {
-  adaptedFilm:
-    PropTypes.shape({
-      id: Types.NUMBER_REQUIRED,
-      name: Types.STRING_REQUIRED,
-      posterImage: Types.STRING_REQUIRED,
-      previewVideoLink: Types.STRING_REQUIRED,
-    }),
-  handleFilmHover: Types.FUNCTION_REQUIRED,
-  film: Types.OBJECT_REQUIRED
+  film: filmType.isRequired
 };

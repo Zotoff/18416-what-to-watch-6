@@ -1,41 +1,28 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 
 import ArtBoard from '../artboard/artboard';
 import CommentForm from '../commentform/comment-form';
-import {adaptFilms} from "../../utils/utils";
-import {getFilm} from "../../store/api-actions";
+import {filmType} from "../../types/types";
+import {AuthorizationStatus} from "../../constants/constants";
 
 
 const Review = (props) => {
 
-  const {getFilmFromServer, singleFilm, isDataLoaded} = props;
+  const {films, match, authorizationStatus} = props;
 
-  useEffect(() => {
-    if (!isDataLoaded) {
-      const getFilmId = (path) => {
-        const pathArray = path.split(`/`);
-        return pathArray[2];
-      };
+  const id = match.params.id;
+  const singleFilm = films.find((f) => f.id === +id);
 
-      const filmId = getFilmId(window.location.pathname);
-
-      getFilmFromServer(filmId);
-    }
-  }, [isDataLoaded]);
-
-  const adaptedFilm = adaptFilms(singleFilm);
-
-  // const {name, posterImage} = props.film;
   return (
     <>
       <ArtBoard />
       <section className="movie-card movie-card--full">
         <div className="movie-card__header">
           <div className="movie-card__bg">
-            <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+            <img src={singleFilm.backgroundImage} alt={singleFilm.name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -52,7 +39,7 @@ const Review = (props) => {
             <nav className="breadcrumbs">
               <ul className="breadcrumbs__list">
                 <li className="breadcrumbs__item">
-                  <a href="movie-page.html" className="breadcrumbs__link">{adaptedFilm.name}</a>
+                  <Link to={`/films/${id}`} className="breadcrumbs__link">{singleFilm.name}</Link>
                 </li>
                 <li className="breadcrumbs__item">
                   <a className="breadcrumbs__link">Add review</a>
@@ -61,18 +48,16 @@ const Review = (props) => {
             </nav>
 
             <div className="user-block">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
+              {authorizationStatus === AuthorizationStatus.UNAUTHORIZED ? (<Link className="user-block__link" to="/login">Sign in</Link>) : (<div className="user-block__avatar"><Link to="/mylist"><img src="img/avatar.jpg" alt="User avatar" width="63" height="63" /></Link></div>)}
             </div>
           </header>
 
           <div className="movie-card__poster movie-card__poster--small">
-            <img src={adaptedFilm.posterImage} alt={adaptedFilm.name} width="218" height="327" />
+            <img src={singleFilm.posterImage} alt={singleFilm.name} width="218" height="327" />
           </div>
         </div>
 
-        <CommentForm id={adaptedFilm.id} />
+        <CommentForm id={+id} />
 
       </section>
     </>
@@ -80,26 +65,22 @@ const Review = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  singleFilm: state.singleFilm,
+  films: state.films,
   isDataLoaded: state.isDataLoaded,
   authorizationStatus: state.authorizationStatus,
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getFilmFromServer: (id) => dispatch(getFilm(id))
-  };
-};
-
 Review.propTypes = {
-  singleFilm:
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      posterImage: PropTypes.string.isRequired
-    }),
-  getFilmFromServer: PropTypes.func.isRequired,
-  isDataLoaded: PropTypes.bool.isRequired
+  films: PropTypes.arrayOf(
+      filmType.isRequired
+  ),
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired
+    })
+  }),
+  authorizationStatus: PropTypes.string.isRequired
 };
 
 export {Review};
-export default connect(mapStateToProps, mapDispatchToProps)(Review);
+export default connect(mapStateToProps)(Review);
