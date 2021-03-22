@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 
 import LikeThisFilm from "../like-this-film/like-this-film";
 
-import {MAX_LIKE_FILMS_COUNT} from "../../constants/constants";
+import {Film} from "../../constants/constants";
 
 import Footer from "../footer/footer";
 import {filmType} from "../../types/types";
 
 const findFilmsByGenre = (films, genreName, idToHide) => {
   const filteredArray = films.filter((f) => f.genre === genreName && f.id !== idToHide);
-  const filteredArrayToShow = filteredArray.slice(0, MAX_LIKE_FILMS_COUNT);
+  const filteredArrayToShow = filteredArray.slice(0, Film.MAX_LIKES_COUNT);
   return (
     <>
       {filteredArrayToShow.map((item, index) => {

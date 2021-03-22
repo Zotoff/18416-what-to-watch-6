@@ -55,12 +55,12 @@ const TabReview = (props) => {
       <div className="movie-card__reviews movie-card__row">
         <div className="movie-card__reviews-col">
           {
-            (firstCommentsArray) ? createCommentTemplate(firstCommentsArray) : `<p>No reviews</p>`
+            (firstCommentsArray) ? createCommentTemplate(firstCommentsArray) : `No reviews`
           }
         </div>
         <div className="movie-card__reviews-col">
           {
-            (secondCommentsArray) ? createCommentTemplate(secondCommentsArray) : `<p>No reviews</p>`
+            (secondCommentsArray) ? createCommentTemplate(secondCommentsArray) : ``
           }
         </div>
       </div>
@@ -68,9 +68,9 @@ const TabReview = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({DATA}) => {
   return {
-    comments: state.comments
+    comments: DATA.comments
   };
 };
 

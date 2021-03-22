@@ -1,19 +1,10 @@
 import moment from "moment";
-import {MINUTE_IN_HOUR, SECONDS_IN_MINUTE} from "../constants/constants";
-import {ALL_GENRES, MAX_GENRES_COUNT} from "../constants/constants";
+import {ALL_GENRES, Film, MINUTE_IN_HOUR, SECONDS_IN_MINUTE} from "../constants/constants";
 
 export const calculateDate = (date) => {
   const dateDuration = moment.duration(date, `minutes`);
   const format = date > MINUTE_IN_HOUR ? `H[h] mm[m]` : `mm[m]`;
   return moment.utc(dateDuration.as(`milliseconds`)).format(format).toString();
-};
-
-export const makeNewStateValue = (state, newStateValue) => {
-  return Object.assign({}, state, newStateValue);
-};
-
-export const showFilmsLoop = (films, filmsCount) => {
-  return films.slice(0, filmsCount);
 };
 
 export const getVideoProgress = (video) => (Math.floor(video.currentTime) / (Math.floor(video.duration) / 100));
@@ -60,7 +51,7 @@ export const translateRatingToWords = (initialRating) => {
 
 export const getFilmsGenres = (films) => {
   const genres = films.map((film) => film.genre);
-  return [ALL_GENRES, ...new Set(genres)].slice(0, MAX_GENRES_COUNT);
+  return [ALL_GENRES, ...new Set(genres)].slice(0, Film.MAX_GENRES_COUNT);
 };
 
 export const getFilmsByGenre = (filmsList, activeGenre) => {

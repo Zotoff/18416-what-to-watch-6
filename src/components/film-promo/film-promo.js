@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import {filmType} from "../../types/types";
 import {connect} from "react-redux";
 import {AuthorizationStatus} from "../../constants/constants";
-import {getPromoFilm} from "../../store/api-actions";
+import {fetchPromoFilm} from "../../store/api-actions";
 import MyListBtn from "../my-list-btn/my-list-btn";
 
 const FilmPromo = (props) => {
@@ -80,14 +80,14 @@ FilmPromo.propTypes = {
   getPromoFromServer: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
-  promoFilm: state.promoFilm,
+const mapStateToProps = ({DATA, USER}) => ({
+  authorizationStatus: USER.authorizationStatus,
+  promoFilm: DATA.promoFilm,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getPromoFromServer: () => dispatch(getPromoFilm())
+    getPromoFromServer: () => dispatch(fetchPromoFilm())
   };
 };
 

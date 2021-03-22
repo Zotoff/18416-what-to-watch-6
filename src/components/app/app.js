@@ -6,11 +6,11 @@ import {connect} from 'react-redux';
 
 import Main from '../main/main';
 import Login from '../login/login';
-import MyList from "../mylist/mylist";
+import MyList from "../my-list/my-list";
 import Film from "../film/film";
 import Review from "../review/review";
 import Player from "../player/player";
-import NotFoundScreen from "../notfound/notfound";
+import NotFoundScreen from "../not-found/not-found";
 import PrivateRoute from "../private-route/private-route";
 import browserHistory from "../../browser-history/browser-history";
 import {AppRoute} from "../../constants/constants";
@@ -65,10 +65,10 @@ App.propTypes = {
   initApp: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({DATA}) => {
   return {
-    films: state.films,
-    isApplicationReady: state.isApplicationReady,
+    films: DATA.films,
+    isApplicationReady: DATA.isApplicationReady,
   };
 };
 

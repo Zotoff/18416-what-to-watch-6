@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {RATING_INPUTS_COUNT} from "../../constants/constants";
 
-import {setComment} from "../../store/api-actions";
+import {postComment} from "../../store/api-actions";
 
-const CommentForm = ({onSubmit, id}) => {
+const CommentForm = ({handleCommentSubmit, id}) => {
 
   const [commentForm, setCommentForm] = useState({
     reviewText: ``,
@@ -24,7 +24,7 @@ const CommentForm = ({onSubmit, id}) => {
       setFormError(true);
     } else {
       setFormError(false);
-      onSubmit(
+      handleCommentSubmit(
           {
             rating: commentRating,
             comment: commentMessage
@@ -82,13 +82,13 @@ const CommentForm = ({onSubmit, id}) => {
 };
 
 CommentForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+  handleCommentSubmit: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onSubmit(data, id) {
-    dispatch(setComment(data, id));
+  handleCommentSubmit(data, id) {
+    dispatch(postComment(data, id));
   }
 });
 

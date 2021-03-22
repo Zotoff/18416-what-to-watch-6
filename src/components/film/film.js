@@ -10,7 +10,7 @@ import {filmType} from "../../types/types";
 
 import Tabs from "../tabs/tabs";
 
-import ArtBoard from '../artboard/artboard';
+import ArtBoard from '../art-board/art-board';
 import {LikeThis} from '../like-this/like-this';
 import MyListBtn from "../my-list-btn/my-list-btn";
 
@@ -91,9 +91,9 @@ const Film = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  films: state.films,
-  authorizationStatus: state.authorizationStatus
+const mapStateToProps = ({DATA, USER}) => ({
+  films: DATA.films,
+  authorizationStatus: USER.authorizationStatus
 });
 
 Film.propTypes = {

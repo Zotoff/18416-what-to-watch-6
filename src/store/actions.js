@@ -12,58 +12,46 @@ export const ActionType = {
   SET_COMMENT: `SET_COMMENT`
 };
 
-export const ActionCreator = {
-  setApplication: (applicationReady)=>{
-    return {
-      type: ActionType.GET_APPLICATION,
-      payload: applicationReady
-    };
-  },
-  getActiveGenre: (activeGenre)=>{
-    return {
-      type: ActionType.GET_ACTIVE_GENRE,
-      payload: activeGenre
-    };
-  },
-  loadFilms: (films) => {
-    return {
-      type: ActionType.LOAD_FILMS,
-      payload: films
-    };
-  },
-  loadComments: (comments) => {
-    return {
-      type: ActionType.LOAD_COMMENTS,
-      payload: comments[`data`]
-    };
-  },
-  setComment: (comment) => {
-    return {
-      type: ActionType.SET_COMMENT,
-      payload: comment
-    };
-  },
-  requireAuthorization: (status) => ({
-    type: ActionType.REQUIRED_AUTHORIZATION,
-    payload: status,
-  }),
-  redirectToRoute: (url) => ({
-    type: ActionType.REDIRECT_TO_ROUTE,
-    payload: url
-  }),
-  getSingleFilm: (film) => {
-    return {
-      type: ActionType.GET_SINGLE_FILM,
-      payload: film
-    };
-  },
-  getPromoFilm: (film) => ({
-    type: ActionType.GET_PROMO_FILM,
-    payload: film
-  }),
-  showMoreFilms: (filmsCount) => ({
-    type: ActionType.SHOW_MORE_FILMS,
-    payload: filmsCount
-  })
+export const setApplication = (applicationReady)=>{
+  return {
+    type: ActionType.GET_APPLICATION,
+    payload: applicationReady
+  };
 };
+export const getActiveGenre = (activeGenre)=>{
+  return {
+    type: ActionType.GET_ACTIVE_GENRE,
+    payload: activeGenre
+  };
+};
+export const loadFilms = (films) => {
+  return {
+    type: ActionType.LOAD_FILMS,
+    payload: films
+  };
+};
+export const loadComments = (comments) => {
+  return {
+    type: ActionType.LOAD_COMMENTS,
+    payload: comments[`data`]
+  };
+};
+export const setComment = (comment) => {
+  return {
+    type: ActionType.SET_COMMENT,
+    payload: comment
+  };
+};
+export const requireAuthorization = (status) => ({
+  type: ActionType.REQUIRED_AUTHORIZATION,
+  payload: status,
+});
+export const redirectToRoute = (url) => ({
+  type: ActionType.REDIRECT_TO_ROUTE,
+  payload: url
+});
+export const getPromoFilm = (film) => ({
+  type: ActionType.GET_PROMO_FILM,
+  payload: film
+});
 
