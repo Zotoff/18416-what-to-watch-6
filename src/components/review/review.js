@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 
-import ArtBoard from '../artboard/artboard';
-import CommentForm from '../commentform/comment-form';
+import ArtBoard from '../art-board/art-board';
+import CommentForm from '../comment-form/comment-form';
 import {filmType} from "../../types/types";
 import {AuthorizationStatus} from "../../constants/constants";
 
@@ -64,10 +64,10 @@ const Review = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  films: state.films,
-  isDataLoaded: state.isDataLoaded,
-  authorizationStatus: state.authorizationStatus,
+const mapStateToProps = ({DATA, USER}) => ({
+  films: DATA.films,
+  isDataLoaded: DATA.isDataLoaded,
+  authorizationStatus: USER.authorizationStatus,
 });
 
 Review.propTypes = {

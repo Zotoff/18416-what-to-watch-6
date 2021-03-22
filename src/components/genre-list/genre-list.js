@@ -26,9 +26,9 @@ const GenreList = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  films: state.films,
-  genres: getFilmsGenres(state.films)
+const mapStateToProps = ({DATA}) => ({
+  films: DATA.films,
+  genres: getFilmsGenres(DATA.films)
 });
 
 GenreList.propTypes = {

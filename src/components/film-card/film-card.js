@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import VideoPlayer from "../videoplayer/videoplayer";
+import VideoPlayer from "../video-player/video-player";
 
 import {useHistory} from 'react-router-dom';
 import {filmType} from '../../types/types';

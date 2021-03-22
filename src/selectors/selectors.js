@@ -1,9 +1,9 @@
 import {ALL_GENRES} from "../constants/constants";
 
-export const selectFilmsFromState = (state) => {
-  if (state.activeGenre !== ALL_GENRES) {
-    return state.films.filter((film) => film.genre === state.activeGenre);
+export const selectFilmsFromState = (films, genre) => {
+  if (genre !== ALL_GENRES) {
+    return films.filter((film) => film.genre === genre);
   }
-  return state.films;
+  return films;
 };
 

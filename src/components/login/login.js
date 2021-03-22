@@ -1,12 +1,12 @@
 import React, {useRef, useState} from 'react';
 import Footer from '../footer/footer';
-import ArtBoard from '../artboard/artboard';
+import ArtBoard from '../art-board/art-board';
 import {Link} from 'react-router-dom';
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {login} from "../../store/api-actions";
 
-const Login = ({onSubmit}) => {
+const Login = ({handleLoginSubmit}) => {
   const loginRef = useRef();
   const passwordRef = useRef();
 
@@ -20,7 +20,7 @@ const Login = ({onSubmit}) => {
       setEmailError(true);
     } else {
       setEmailError(false);
-      onSubmit({
+      handleLoginSubmit({
         login: loginValue,
         password: passwordValue
       });
@@ -88,11 +88,11 @@ const Login = ({onSubmit}) => {
 };
 
 Login.propTypes = {
-  onSubmit: PropTypes.func.isRequired
+  handleLoginSubmit: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onSubmit(authData) {
+  handleLoginSubmit(authData) {
     dispatch(login(authData));
   }
 });

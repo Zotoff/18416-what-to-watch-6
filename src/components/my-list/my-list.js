@@ -1,8 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import ArtBoard from '../artboard/artboard';
-import FilmCard from '../filmcard/filmcard';
+import ArtBoard from '../art-board/art-board';
+import FilmCard from '../film-card/film-card';
 import Footer from '../footer/footer';
 import {Link} from 'react-router-dom';
 
@@ -47,8 +47,8 @@ const MyList = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus
+const mapStateToProps = ({USER}) => ({
+  authorizationStatus: USER.authorizationStatus
 });
 
 MyList.propTypes = {

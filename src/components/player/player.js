@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ArtBoard from '../artboard/artboard';
+import ArtBoard from '../art-board/art-board';
 import withPlayer from '../../hocs/with-player/with-player';
 import {formatVideoTime} from "../../utils/utils";
 
