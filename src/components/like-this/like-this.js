@@ -14,7 +14,7 @@ const findFilmsByGenre = (films, genreName, idToHide) => {
   return (
     <>
       {filteredArrayToShow.map((item, index) => {
-        return <LikeThisFilm film={item} key={index} />;
+        return <LikeThisFilm film={item} key={item.id} />;
       })}
     </>
   );

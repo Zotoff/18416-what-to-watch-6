@@ -84,3 +84,16 @@ export const adaptFilms = (film) => {
 
   return adaptedFilm;
 };
+
+export const adaptUserData = (data) => {
+  const adaptedData = Object.assign(
+      {},
+      data, {
+        avatarUrl: data.avatar_url,
+        email: data.email,
+        id: data.id,
+        name: data.name
+      });
+  delete adaptedData.avatar_url;
+  return adaptedData;
+};

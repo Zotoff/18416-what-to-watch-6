@@ -1,22 +1,17 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import {Link} from 'react-router-dom';
-import {filmType} from "../../types/types";
+import {promoType, userDataType} from "../../types/types";
 import {connect} from "react-redux";
 import {AuthorizationStatus} from "../../constants/constants";
-import {fetchPromoFilm} from "../../store/api-actions";
 import MyListBtn from "../my-list-btn/my-list-btn";
 
 const FilmPromo = (props) => {
 
-  const {getPromoFromServer, promoFilm, authorizationStatus} = props;
+  const {film, authorizationStatus, userData} = props;
 
-  useEffect(() => {
-    getPromoFromServer();
-  }, []);
-
-  const {id, name, posterImage, genre, released, backgroundImage} = promoFilm;
+  const {id, name, posterImage, genre, released, backgroundImage} = film;
 
   return (
     <section className="movie-card">
@@ -36,7 +31,15 @@ const FilmPromo = (props) => {
         </div>
 
         <div className="user-block">
-          {authorizationStatus === AuthorizationStatus.UNAUTHORIZED ? (<Link className="user-block__link" to="/login">Sign in</Link>) : (<div className="user-block__avatar"><Link to="/mylist"><img src="img/avatar.jpg" alt="User avatar" width="63" height="63" /></Link></div>)}
+          {
+            authorizationStatus === AuthorizationStatus.UNAUTHORIZED ? (<Link className="user-block__link" to="/login">Sign in</Link>) : (
+            <div className="user-block__avatar">
+              <Link to="/mylist">
+                <img src={userData.avatarUrl} alt="User avatar" width="63" height="63" />
+              </Link>
+            </div>
+          )
+          }
         </div>
       </header>
 
@@ -61,11 +64,7 @@ const FilmPromo = (props) => {
                 </svg>
                 <span>Play</span>
               </Link>
-              {authorizationStatus !== AuthorizationStatus.UNAUTHORIZED ?
-                <MyListBtn film={promoFilm} />
-                :
-                ``
-              }
+                <MyListBtn film={film} />
             </div>
           </div>
         </div>
@@ -75,20 +74,14 @@ const FilmPromo = (props) => {
 };
 
 FilmPromo.propTypes = {
-  promoFilm: filmType.isRequired,
+  film: promoType,
   authorizationStatus: PropTypes.string.isRequired,
-  getPromoFromServer: PropTypes.func.isRequired,
+  userData: userDataType.isRequired
 };
 
-const mapStateToProps = ({DATA, USER}) => ({
+const mapStateToProps = ({USER}) => ({
   authorizationStatus: USER.authorizationStatus,
-  promoFilm: DATA.promoFilm,
+  userData: USER.userData
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getPromoFromServer: () => dispatch(fetchPromoFilm())
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(FilmPromo);
+export default connect(mapStateToProps)(FilmPromo);

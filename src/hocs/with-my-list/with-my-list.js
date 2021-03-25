@@ -21,12 +21,11 @@ const withMyListBtn = (Component) => {
     }
 
     render() {
-
       return (
         <Component
           {...this.props}
           handleClick={this._handleClick}
-          isFavorite={this.state.isFavorite}
+          isInList={this.state.isFavorite}
         />
       );
     }

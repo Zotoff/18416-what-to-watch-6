@@ -6,23 +6,24 @@ import {Redirect} from "react-router-dom";
 import {PropTypes} from 'prop-types';
 
 import {Link} from 'react-router-dom';
-import {filmType} from "../../types/types";
+import {filmType, userDataType} from "../../types/types";
 
 import Tabs from "../tabs/tabs";
 
 import ArtBoard from '../art-board/art-board';
 import {LikeThis} from '../like-this/like-this';
 import MyListBtn from "../my-list-btn/my-list-btn";
+import {AppRoute} from "../../constants/constants";
 
 const Film = (props) => {
 
-  const {films, authorizationStatus} = props;
+  const {films, authorizationStatus, userData} = props;
 
   const id = props.match.params.id;
   const singleFilm = films.find((f) => f.id === +id);
 
   if (!singleFilm) {
-    return <Redirect to={`/notfound`} />;
+    return <Redirect to={AppRoute.NOT_FOUND} />;
   }
 
   return (
@@ -47,7 +48,15 @@ const Film = (props) => {
             </div>
 
             <div className="user-block">
-              {authorizationStatus === AuthorizationStatus.UNAUTHORIZED ? (<Link className="user-block__link" to="/login">Sign in</Link>) : (<div className="user-block__avatar"><Link to="/mylist"><img src="img/avatar.jpg" alt="User avatar" width="63" height="63" /></Link></div>)}
+              {
+                authorizationStatus === AuthorizationStatus.UNAUTHORIZED ? (<Link className="user-block__link" to="/login">Sign in</Link>) : (
+                  <div className="user-block__avatar">
+                    <Link to="/mylist">
+                      <img src={userData.avatarUrl} alt="User avatar" width="63" height="63" />
+                    </Link>
+                  </div>
+                )
+              }
             </div>
           </header>
 
@@ -67,8 +76,8 @@ const Film = (props) => {
                   </svg>
                   <span>Play</span>
                 </Link>
-                {authorizationStatus !== AuthorizationStatus.UNAUTHORIZED ? (<MyListBtn film={singleFilm} />) : `` }
-                {authorizationStatus === AuthorizationStatus.AUTHORIZED ? (<Link to={`/films/${singleFilm.id}/review`} className="btn movie-card__button">Add review</Link>) : ``}
+                <MyListBtn film={singleFilm} />
+                <Link to={`/films/${singleFilm.id}/review`} className="btn movie-card__button">Add review</Link>
               </div>
             </div>
           </div>
@@ -93,7 +102,8 @@ const Film = (props) => {
 
 const mapStateToProps = ({DATA, USER}) => ({
   films: DATA.films,
-  authorizationStatus: USER.authorizationStatus
+  authorizationStatus: USER.authorizationStatus,
+  userData: USER.userData
 });
 
 Film.propTypes = {
@@ -106,6 +116,7 @@ Film.propTypes = {
       id: PropTypes.string.isRequired
     })
   }),
+  userData: userDataType.isRequired,
   singleFilm:
     PropTypes.shape({
       name: PropTypes.string.isRequired,

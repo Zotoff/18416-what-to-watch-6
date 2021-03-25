@@ -6,9 +6,10 @@ export const ALL_GENRES = `All genres`;
 export const Film = {
   MAX_LIKES_COUNT: 4,
   VISIBLE_COUNT: 8,
-  COUNT_PER_STEP: 4,
+  COUNT_PER_STEP: 8,
   MAX_GENRES_COUNT: 8,
-  INITIAL_COUNT: 8
+  INITIAL_COUNT: 8,
+  INITIAL_COMMENT_STARS: 3
 };
 
 export const TabsTypes = {
@@ -29,7 +30,8 @@ export const AppRoute = {
   MY_LIST: `/mylist`,
   FILM_ID: `/film/:id`,
   REVIEW_ID: `/films/:id/review`,
-  PLAYER_ID: `/player/:id`
+  PLAYER_ID: `/player/:id`,
+  NOT_FOUND: `/notfound`
 };
 
 export const APIRoute = {
@@ -37,5 +39,6 @@ export const APIRoute = {
   LOGIN: `/login`,
   COMMENT: `/comments`,
   PROMO: `/films/promo`,
-  FAVORITE: `/favorite`
+  FAVORITE: `/favorite`,
+  LOGOUT: `/logout`
 };

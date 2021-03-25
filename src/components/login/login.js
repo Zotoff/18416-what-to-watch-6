@@ -10,16 +10,16 @@ const Login = ({handleLoginSubmit}) => {
   const loginRef = useRef();
   const passwordRef = useRef();
 
-  const [emailError, setEmailError] = useState(false);
+  const [errorEvent, setErrorEvent] = useState(false);
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
     const loginValue = loginRef.current.value;
     const passwordValue = passwordRef.current.value;
-    if (!loginValue) {
-      setEmailError(true);
+    if (!loginValue || !passwordValue) {
+      setErrorEvent(true);
     } else {
-      setEmailError(false);
+      setErrorEvent(false);
       handleLoginSubmit({
         login: loginValue,
         password: passwordValue
@@ -46,7 +46,7 @@ const Login = ({handleLoginSubmit}) => {
         <div className="sign-in user-page__content">
           <form action="#" className="sign-in__form" onSubmit={handleSubmit}>
             <div className="sign-in__message">
-              {emailError ? (<p>Please enter a valid email address</p>) : ``}
+              {errorEvent ? (<p>Please fill all the fields</p>) : ``}
             </div>
             <div className="sign-in__fields">
               <div className="sign-in__field">

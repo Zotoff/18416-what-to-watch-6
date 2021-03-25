@@ -6,4 +6,3 @@ export const selectFilmsFromState = (films, genre) => {
   }
   return films;
 };
-

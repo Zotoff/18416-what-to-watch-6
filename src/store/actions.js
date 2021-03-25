@@ -9,7 +9,8 @@ export const ActionType = {
   GET_PROMO_FILM: `GET_PROMO_FILM`,
   GET_APPLICATION: `GET_APPLICATION`,
   SHOW_MORE_FILMS: `SHOW_MORE_FILMS`,
-  SET_COMMENT: `SET_COMMENT`
+  SET_COMMENT: `SET_COMMENT`,
+  SET_USER_DATA: `SET_USER_DATA`
 };
 
 export const setApplication = (applicationReady)=>{
@@ -45,6 +46,10 @@ export const setComment = (comment) => {
 export const requireAuthorization = (status) => ({
   type: ActionType.REQUIRED_AUTHORIZATION,
   payload: status,
+});
+export const setUserData = (data) => ({
+  type: ActionType.SET_USER_DATA,
+  payload: data
 });
 export const redirectToRoute = (url) => ({
   type: ActionType.REDIRECT_TO_ROUTE,

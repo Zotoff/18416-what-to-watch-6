@@ -14,7 +14,7 @@ import {filmType} from "../../types/types";
 
 const Main = (props) => {
 
-  const {films, activeGenre, onGenreClick} = props;
+  const {films, activeGenre, onGenreClick, promoFilm} = props;
 
   const [filmsVisibleNum, setFilmsVisibleNum] = useState(Film.VISIBLE_COUNT);
 
@@ -28,8 +28,8 @@ const Main = (props) => {
   };
 
   return (
-    <>
-      <FilmPromo />
+    <React.Fragment>
+      <FilmPromo film={promoFilm} />
 
       <div className="page-content">
         <section className="catalog">
@@ -46,13 +46,14 @@ const Main = (props) => {
 
         <Footer />
       </div>
-    </>
+    </React.Fragment>
   );
 };
 
 
 const mapStateToProps = ({DATA}) => ({
   films: DATA.films,
+  promoFilm: DATA.promoFilm,
   singleFilm: DATA.singleFilm,
   activeGenre: DATA.activeGenre,
   onLoadData: DATA.onLoadData,

@@ -17,7 +17,7 @@ export const filmType = shape({
   released: PropTypes.number.isRequired,
   runTime: PropTypes.number.isRequired,
   scoresCount: PropTypes.number.isRequired,
-  starring: PropTypes.array.isRequired,
+  starring: PropTypes.arrayOf(PropTypes.string),
   videoLink: PropTypes.string.isRequired,
 });
 
@@ -32,3 +32,17 @@ export const commentType = shape({
   date: PropTypes.string.isRequired
 });
 
+export const promoType = shape({
+  backgroundImage: PropTypes.string.isRequired,
+  posterImage: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  genre: PropTypes.string.isRequired,
+  released: PropTypes.number.isRequired
+});
+
+export const userDataType = shape({
+  avatarUrl: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired
+});

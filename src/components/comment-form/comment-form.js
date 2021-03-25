@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {RATING_INPUTS_COUNT} from "../../constants/constants";
+import {RATING_INPUTS_COUNT, Film} from "../../constants/constants";
 
 import {postComment} from "../../store/api-actions";
 
@@ -9,7 +9,7 @@ const CommentForm = ({handleCommentSubmit, id}) => {
 
   const [commentForm, setCommentForm] = useState({
     reviewText: ``,
-    rating: 0
+    rating: Film.INITIAL_COMMENT_STARS
   });
 
   const [formError, setFormError] = useState(false);
@@ -20,7 +20,7 @@ const CommentForm = ({handleCommentSubmit, id}) => {
     evt.preventDefault();
     const commentRating = commentForm.rating;
     const commentMessage = commentForm.reviewText;
-    if (commentRating === 0) {
+    if (commentRating === 0 || commentMessage === ``) {
       setFormError(true);
     } else {
       setFormError(false);
@@ -45,8 +45,8 @@ const CommentForm = ({handleCommentSubmit, id}) => {
     return (
       inputStarsArray.map((value, index) => {
         return (
-          <React.Fragment key={index}>
-            <input className="rating__input" id={`star-${value}`} onChange={handleFieldChange} disabled={formSubmitStatus} type="radio" name="rating" value={value}/>
+          <React.Fragment key={`${value}_${index}`}>
+            <input className="rating__input" id={`star-${value}`} onChange={handleFieldChange} disabled={formSubmitStatus} type="radio" checked={value === +commentForm.rating} name="rating" value={value}/>
             <label className="rating__label" htmlFor={`star-${value}`}>Rating ${value}</label>
           </React.Fragment>
         );
@@ -59,7 +59,7 @@ const CommentForm = ({handleCommentSubmit, id}) => {
     <div className="add-review">
       <form action="#" className="add-review__form" onSubmit={handleSubmit}>
         <div className="add-review__message">
-          {formError ? (<p>Please select the film rating</p>) : ``}
+          {formError ? (<p>Please check all fields</p>) : ``}
         </div>
         <div className="rating">
           <div className="rating__stars" >

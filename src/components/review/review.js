@@ -5,13 +5,12 @@ import {Link} from 'react-router-dom';
 
 import ArtBoard from '../art-board/art-board';
 import CommentForm from '../comment-form/comment-form';
-import {filmType} from "../../types/types";
-import {AuthorizationStatus} from "../../constants/constants";
+import {filmType, userDataType} from "../../types/types";
 
 
 const Review = (props) => {
 
-  const {films, match, authorizationStatus} = props;
+  const {films, match, userData} = props;
 
   const id = match.params.id;
   const singleFilm = films.find((f) => f.id === +id);
@@ -48,7 +47,11 @@ const Review = (props) => {
             </nav>
 
             <div className="user-block">
-              {authorizationStatus === AuthorizationStatus.UNAUTHORIZED ? (<Link className="user-block__link" to="/login">Sign in</Link>) : (<div className="user-block__avatar"><Link to="/mylist"><img src="img/avatar.jpg" alt="User avatar" width="63" height="63" /></Link></div>)}
+                  <div className="user-block__avatar">
+                    <Link to="/mylist">
+                      <img src={userData.avatarUrl} alt="User avatar" width="63" height="63" />
+                    </Link>
+                  </div>
             </div>
           </header>
 
@@ -68,6 +71,7 @@ const mapStateToProps = ({DATA, USER}) => ({
   films: DATA.films,
   isDataLoaded: DATA.isDataLoaded,
   authorizationStatus: USER.authorizationStatus,
+  userData: USER.userData
 });
 
 Review.propTypes = {
@@ -79,7 +83,8 @@ Review.propTypes = {
       id: PropTypes.string.isRequired
     })
   }),
-  authorizationStatus: PropTypes.string.isRequired
+  authorizationStatus: PropTypes.string.isRequired,
+  userData: userDataType.isRequired
 };
 
 export {Review};

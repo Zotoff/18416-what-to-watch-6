@@ -23,7 +23,7 @@ const App = ({films, isApplicationReady, initApp}) => {
   }, []);
 
   if (!isApplicationReady) {
-    return <p>Not ready</p>;
+    return <div><p>Server is not responding...</p></div>;
   }
 
   return (

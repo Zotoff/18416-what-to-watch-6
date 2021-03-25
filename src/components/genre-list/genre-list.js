@@ -10,7 +10,7 @@ const GenreList = (props) => {
     <ul className="catalog__genres-list">
       {
         genres.map((genre, index) => {
-          return (<li key={index} className={`catalog__genres-item ${genre === currentActiveGenre ? `catalog__genres-item--active` : ``}`}>
+          return (<li key={`${genre}_${index}`} className={`catalog__genres-item ${genre === currentActiveGenre ? `catalog__genres-item--active` : ``}`}>
             <span
               className="catalog__genres-link"
               style={{cursor: `pointer`}}

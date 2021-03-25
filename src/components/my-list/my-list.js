@@ -6,12 +6,18 @@ import FilmCard from '../film-card/film-card';
 import Footer from '../footer/footer';
 import {Link} from 'react-router-dom';
 
-import {filmType} from "../../types/types";
+import {filmType, userDataType} from "../../types/types";
 import {AuthorizationStatus} from "../../constants/constants";
+import {logOut} from "../../store/api-actions";
 
 const MyList = (props) => {
-  const {films, authorizationStatus} = props;
+  const {films, authorizationStatus, logoutApp, userData} = props;
   const filmsForMyList = films.filter((film) => film.isFavorite === true);
+
+  const handleLogout = () => {
+    logoutApp();
+  };
+
   return (
     <>
       <ArtBoard />
@@ -28,7 +34,7 @@ const MyList = (props) => {
           <h1 className="page-title user-page__title">My list</h1>
 
           <div className="user-block">
-            {authorizationStatus === AuthorizationStatus.UNAUTHORIZED ? (<Link className="user-block__link" to="/login">Sign in</Link>) : (<div className="user-block__avatar"><Link to="/mylist"><img src="img/avatar.jpg" alt="User avatar" width="63" height="63" /></Link></div>)}
+            {authorizationStatus === AuthorizationStatus.UNAUTHORIZED ? (<Link className="user-block__link" to={AppRoute.LOGIN}>Sign in</Link>) : (<div><a className="user-block__link" onClick={handleLogout}>Sign out</a><div className="user-block__avatar"><img src={userData.avatarUrl} alt="User avatar" width="63" height="63" /></div></div>)}
           </div>
         </header>
 
@@ -37,7 +43,7 @@ const MyList = (props) => {
 
           <div className="catalog__movies-list">
             {filmsForMyList.map((film, index) => {
-              return <FilmCard key={index} film={film} />;
+              return <FilmCard key={film.id} film={film} />;
             })}
           </div>
         </section>
@@ -48,15 +54,24 @@ const MyList = (props) => {
 };
 
 const mapStateToProps = ({USER}) => ({
-  authorizationStatus: USER.authorizationStatus
+  authorizationStatus: USER.authorizationStatus,
+  userData: USER.userData
 });
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logoutApp: () => dispatch(logOut())
+  };
+};
 
 MyList.propTypes = {
   films: PropTypes.arrayOf(
       filmType.isRequired
   ),
-  authorizationStatus: PropTypes.string.isRequired
+  authorizationStatus: PropTypes.string.isRequired,
+  logoutApp: PropTypes.func.isRequired,
+  userData: userDataType.isRequired
 };
 
 export {MyList};
-export default connect(mapStateToProps)(MyList);
+export default connect(mapStateToProps, mapDispatchToProps)(MyList);

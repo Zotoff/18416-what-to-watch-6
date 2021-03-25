@@ -2,7 +2,13 @@ import {ActionType} from '../actions';
 import {AuthorizationStatus} from "../../constants/constants";
 
 const initialState = {
-  authorizationStatus: AuthorizationStatus.UNAUTHORIZED
+  authorizationStatus: AuthorizationStatus.UNAUTHORIZED,
+  userData: {
+    id: null,
+    email: ``,
+    name: ``,
+    avatarUrl: `img/avatar.jpg`
+  }
 };
 
 const users = (state = initialState, action) => {
@@ -11,6 +17,11 @@ const users = (state = initialState, action) => {
       return {
         ...state,
         authorizationStatus: action.payload,
+      };
+    case ActionType.SET_USER_DATA:
+      return {
+        ...state,
+        userData: action.payload
       };
   }
   return state;
