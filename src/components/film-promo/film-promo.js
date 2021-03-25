@@ -33,12 +33,12 @@ const FilmPromo = (props) => {
         <div className="user-block">
           {
             authorizationStatus === AuthorizationStatus.UNAUTHORIZED ? (<Link className="user-block__link" to="/login">Sign in</Link>) : (
-            <div className="user-block__avatar">
-              <Link to="/mylist">
-                <img src={userData.avatarUrl} alt="User avatar" width="63" height="63" />
-              </Link>
-            </div>
-          )
+              <div className="user-block__avatar">
+                <Link to="/mylist">
+                  <img src={userData.avatarUrl} alt="User avatar" width="63" height="63" />
+                </Link>
+              </div>
+            )
           }
         </div>
       </header>
@@ -64,7 +64,7 @@ const FilmPromo = (props) => {
                 </svg>
                 <span>Play</span>
               </Link>
-                <MyListBtn film={film} />
+              <MyListBtn film={film} />
             </div>
           </div>
         </div>

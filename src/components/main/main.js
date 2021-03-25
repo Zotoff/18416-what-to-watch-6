@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import {selectFilmsFromState} from '../../selectors/selectors';
 import {getActiveGenre} from "../../store/actions";
 import {Film} from '../../constants/constants';
-import {filmType} from "../../types/types";
+import {filmType, promoType} from "../../types/types";
 
 const Main = (props) => {
 
@@ -71,6 +71,7 @@ Main.propTypes = {
   ),
   activeGenre: PropTypes.string.isRequired,
   onGenreClick: PropTypes.func.isRequired,
+  promoFilm: promoType.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

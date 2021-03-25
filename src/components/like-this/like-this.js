@@ -13,7 +13,7 @@ const findFilmsByGenre = (films, genreName, idToHide) => {
   const filteredArrayToShow = filteredArray.slice(0, Film.MAX_LIKES_COUNT);
   return (
     <>
-      {filteredArrayToShow.map((item, index) => {
+      {filteredArrayToShow.map((item) => {
         return <LikeThisFilm film={item} key={item.id} />;
       })}
     </>

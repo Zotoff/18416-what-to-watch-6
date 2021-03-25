@@ -47,11 +47,11 @@ const Review = (props) => {
             </nav>
 
             <div className="user-block">
-                  <div className="user-block__avatar">
-                    <Link to="/mylist">
-                      <img src={userData.avatarUrl} alt="User avatar" width="63" height="63" />
-                    </Link>
-                  </div>
+              <div className="user-block__avatar">
+                <Link to="/mylist">
+                  <img src={userData.avatarUrl} alt="User avatar" width="63" height="63" />
+                </Link>
+              </div>
             </div>
           </header>
 

@@ -7,7 +7,7 @@ import Footer from '../footer/footer';
 import {Link} from 'react-router-dom';
 
 import {filmType, userDataType} from "../../types/types";
-import {AuthorizationStatus} from "../../constants/constants";
+import {AuthorizationStatus, AppRoute} from "../../constants/constants";
 import {logOut} from "../../store/api-actions";
 
 const MyList = (props) => {
@@ -42,7 +42,7 @@ const MyList = (props) => {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <div className="catalog__movies-list">
-            {filmsForMyList.map((film, index) => {
+            {filmsForMyList.map((film) => {
               return <FilmCard key={film.id} film={film} />;
             })}
           </div>
