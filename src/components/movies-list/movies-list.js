@@ -10,7 +10,7 @@ const MoviesList = (props) => {
     <>
       <div className={`catalog__movies-list`}>
         {
-          films.slice(0, visibleNum).map((film) => <FilmCard key={film.id} film={film} />)
+          films.slice(0, visibleNum).map((film) => <FilmCard key={`film_` + film.id} film={film} />)
         }
       </div>
       <div className="catalog__more">

@@ -43,7 +43,7 @@ const MyList = (props) => {
 
           <div className="catalog__movies-list">
             {filmsForMyList.map((film) => {
-              return <FilmCard key={film.id} film={film} />;
+              return <FilmCard key={`film_` + film.id} film={film} />;
             })}
           </div>
         </section>

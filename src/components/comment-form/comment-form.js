@@ -43,9 +43,9 @@ const CommentForm = ({handleCommentSubmit, id}) => {
   const renderInputStars = () => {
     const inputStarsArray = RATING_INPUTS_COUNT;
     return (
-      inputStarsArray.map((value, index) => {
+      inputStarsArray.map((value) => {
         return (
-          <React.Fragment key={`${value}_${index}`}>
+          <React.Fragment key={`comment_` + value}>
             <input className="rating__input" id={`star-${value}`} onChange={handleFieldChange} disabled={formSubmitStatus} type="radio" checked={value === +commentForm.rating} name="rating" value={value}/>
             <label className="rating__label" htmlFor={`star-${value}`}>Rating ${value}</label>
           </React.Fragment>

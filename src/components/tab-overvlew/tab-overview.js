@@ -28,7 +28,7 @@ const TabOverView = (props) => {
 TabOverView.propTypes = {
   director: PropTypes.string.isRequired,
   scoresCount: PropTypes.number.isRequired,
-  starring: PropTypes.array.isRequired,
+  starring: PropTypes.arrayOf(PropTypes.string),
   description: PropTypes.string.isRequired,
   rating: PropTypes.number.isRequired
 };

@@ -9,8 +9,8 @@ const GenreList = (props) => {
   return (
     <ul className="catalog__genres-list">
       {
-        genres.map((genre, index) => {
-          return (<li key={`${genre}_${index}`} className={`catalog__genres-item ${genre === currentActiveGenre ? `catalog__genres-item--active` : ``}`}>
+        genres.map((genre) => {
+          return (<li key={`link_` + genre} className={`catalog__genres-item ${genre === currentActiveGenre ? `catalog__genres-item--active` : ``}`}>
             <span
               className="catalog__genres-link"
               style={{cursor: `pointer`}}
@@ -32,7 +32,7 @@ const mapStateToProps = ({DATA}) => ({
 });
 
 GenreList.propTypes = {
-  genres: PropTypes.array.isRequired,
+  genres: PropTypes.arrayOf(PropTypes.string),
   films: PropTypes.arrayOf(
       filmType.isRequired
   ),

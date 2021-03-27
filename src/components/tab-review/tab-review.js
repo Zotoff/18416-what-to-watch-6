@@ -10,10 +10,10 @@ const createCommentTemplate = (comments) => {
   if (comments) {
     return (
       <>
-        {Object.values(comments.map((review, i) => {
+        {Object.values(comments.map((review) => {
           const {comment, user, date, rating} = review;
           return (
-            <div className="review" key={i}>
+            <div className="review" key={`review_` + user.name}>
               <blockquote className="review__quote">
                 <p className="review__text">{comment}</p>
                 <footer className="review__details">

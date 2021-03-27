@@ -10,8 +10,8 @@ const Tabs = (props) => {
     <>
       <nav className="movie-nav movie-card__nav">
         <ul className="movie-nav__list">
-          {Object.keys(TabsTypes).map((tab, index)=>(
-            <li className={`movie-nav__item ${activeTab === Tabs[tab] ? `movie-nav__item--active` : ``}`} key={index}>
+          {Object.keys(TabsTypes).map((tab)=>(
+            <li className={`movie-nav__item ${activeTab === Tabs[tab] ? `movie-nav__item--active` : ``}`} key={`tab_` + tab}>
               <a className="movie-nav__link" onClick={() => handleTabClick(tab)}>{TabsTypes[tab]}</a>
             </li>
           ))}
